@@ -11,6 +11,7 @@
     <modules>
         <module>demo-common</module>
         <module>thread-demo</module>
+        <module>spring-boot</module>
     </modules>
 
 
@@ -39,6 +40,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <java.version>1.8</java.version>
+        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     </properties>
 
 
@@ -207,26 +209,26 @@
 
 
             <!-- mybatis begin -->
-            <!--<dependency>-->
-            <!--<groupId>org.mybatis</groupId>-->
-            <!--<artifactId>mybatis</artifactId>-->
-            <!--<version>3.4.2</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>org.mybatis.spring.boot</groupId>-->
-            <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
-            <!--<version>1.1.1</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>mysql</groupId>-->
-            <!--<artifactId>mysql-connector-java</artifactId>-->
-            <!--<version>5.1.21</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>druid</artifactId>-->
-            <!--<version>1.0.31</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>3.4.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.21</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.0.31</version>
+            </dependency>
             <!-- mybatis end -->
 
 
@@ -239,38 +241,39 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>com.ejyi.demo.spring.boot.SpringBootApplication</mainClass>
-                            <layout>ZIP</layout>
-                            <attach>false</attach>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
-                    <fork>true</fork>
+                    <testSource>${java.version}</testSource>
+                    <testTarget>${java.version}</testTarget>
                 </configuration>
+                <version>${maven-compiler-plugin.version}</version>
             </plugin>
-
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.3.0.603</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
