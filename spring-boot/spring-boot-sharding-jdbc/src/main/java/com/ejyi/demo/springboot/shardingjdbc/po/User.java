@@ -3,7 +3,7 @@ package com.ejyi.demo.springboot.shardingjdbc.po;
 import java.util.Date;
 
 public class User {
-    private Integer id;
+    private Integer userId;
 
     private String name;
 
@@ -13,12 +13,12 @@ public class User {
 
     private Date lastUpdateTime;
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {

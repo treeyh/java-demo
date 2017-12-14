@@ -3,7 +3,7 @@ package com.ejyi.demo.springboot.shardingjdbc.po;
 import java.util.Date;
 
 public class Order {
-    private Integer id;
+    private Integer orderId;
 
     private String orderNo;
 
@@ -17,12 +17,12 @@ public class Order {
 
     private Date lastUpdateTime;
 
-    public Integer getId() {
-        return id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public String getOrderNo() {

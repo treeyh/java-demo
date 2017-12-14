@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ejyi.demo.springboot.shardingjdbc.mapper.OrderMapper" >
   <resultMap id="BaseResultMap" type="com.ejyi.demo.springboot.shardingjdbc.po.Order" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="amount" property="amount" jdbcType="BIGINT" />
@@ -11,31 +11,31 @@
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_no, user_id, amount, status, create_time, last_update_time
+    order_id, order_no, user_id, amount, status, create_time, last_update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_order_0
-    where id = #{id,jdbcType=INTEGER}
+    from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_order_0
-    where id = #{id,jdbcType=INTEGER}
+    delete from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.Order" >
-    insert into t_order_0 (id, order_no, user_id, 
+    insert into t_order (order_id, order_no, user_id, 
       amount, status, create_time, 
       last_update_time)
-    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+    values (#{orderId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{amount,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastUpdateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.Order" >
-    insert into t_order_0
+    insert into t_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="orderId != null" >
+        order_id,
       </if>
       <if test="orderNo != null" >
         order_no,
@@ -57,8 +57,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
       </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
@@ -81,7 +81,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.Order" >
-    update t_order_0
+    update t_order
     <set >
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=VARCHAR},
@@ -102,16 +102,16 @@
         last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.Order" >
-    update t_order_0
+    update t_order
     set order_no = #{orderNo,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       amount = #{amount,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=INTEGER}
   </update>
 </mapper>

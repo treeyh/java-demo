@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.mybatis.spring.annotation.MapperScan;
 
+
 @MapperScan("com.ejyi.demo.springboot.shardingjdbc.mapper")
 @SpringBootApplication(scanBasePackages = {"com.ejyi.demo.springboot.shardingjdbc"})
 @Configuration
@@ -35,8 +36,7 @@ public class WebApplication  extends SpringBootServletInitializer {
 
         logger.info("Application start....");
         ApplicationContext applicationContext = configureApplication(new SpringApplicationBuilder()).run(args);
-        applicationContext.getBean(DemoService.class).demoUser();
+        applicationContext.getBean(DemoService.class).demoOrder();
         logger.info("Application end....");
-
     }
 }

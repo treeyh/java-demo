@@ -2,36 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ejyi.demo.springboot.shardingjdbc.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.ejyi.demo.springboot.shardingjdbc.po.User" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, status, create_time, last_update_time
+    user_id, name, status, create_time, last_update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_user_0
-    where id = #{id,jdbcType=INTEGER}
+    from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user_0
-    where id = #{id,jdbcType=INTEGER}
+    delete from t_user
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.User" >
-    insert into t_user_0 (id, name, status, 
+    insert into t_user (user_id, name, status, 
       create_time, last_update_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.User" >
-    insert into t_user_0
+    insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="name != null" >
         name,
@@ -47,8 +47,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -65,7 +65,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.User" >
-    update t_user_0
+    update t_user
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -80,14 +80,14 @@
         last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ejyi.demo.springboot.shardingjdbc.po.User" >
-    update t_user_0
+    update t_user
     set name = #{name,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

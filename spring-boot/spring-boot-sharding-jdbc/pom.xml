@@ -81,6 +81,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.shardingjdbc</groupId>
+            <artifactId>sharding-jdbc-core-spring-boot-starter</artifactId>
+        </dependency>
         <!-- mybatis end -->
 
 

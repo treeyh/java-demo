@@ -29,7 +29,7 @@ public class DemoService {
 
         for(int i=0;i<10; i++){
             User user = new User();
-            user.setId(i);
+            user.setUserId(i);
             user.setCreateTime(new Date());
             user.setLastUpdateTime(new Date());
             user.setName("aaaaa_"+i);
@@ -40,16 +40,19 @@ public class DemoService {
     public void demoOrder(){
 
         List<Integer> ids = new ArrayList<>();
-        for(Integer i=0;i<10; i++){
-            Order order = new Order();
-            order.setId(i);
-            order.setOrderNo("order_no_"+i);
-            order.setAmount(Long.parseLong(i.toString()));
-            order.setCreateTime(new Date());
-            order.setLastUpdateTime(new Date());
-            order.setUserId(i);
-            order.setStatus(1);
-            orderMapper.insert(order);
+        for(Integer userId=1; userId<10; userId++){
+            for(Integer orderId = userId * 10; orderId < (userId+1)*10; orderId++) {
+                System.out.println("i:" + userId);
+                Order order = new Order();
+                order.setOrderId(orderId);
+                order.setOrderNo("order_no_" + orderId);
+                order.setAmount(Long.parseLong(userId.toString()));
+                order.setCreateTime(new Date());
+                order.setLastUpdateTime(new Date());
+                order.setUserId(userId);
+                order.setStatus(1);
+                orderMapper.insert(order);
+            }
         }
     }
 }
