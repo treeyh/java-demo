@@ -282,22 +282,7 @@ public class HttpHelper {
 
 
     public static void main(String[] args) {
-        //System.out.println(HttpHelper.sendGet("http://api.ffan.com/bigMemSopData/v1/data/common/wifiMacToMobileDetail?plaza_id=1000274&pageNum=1&pageSize=1"));
 
-        String url = "http://api.sit.ffan.com/smartpark/v2/greenLightRecord";
-
-        Map<String, String> params = new HashMap<>();
-        params.put("clientId", "100");
-        params.put("clientType", "H5");
-        params.put("serverVersion", "1.0.0");
-
-        Map<String, String> datas = new HashMap<>();
-        datas.put("carLicense", "沪A12345");
-        datas.put("oper", "tree");
-        datas.put("orderNo", "123123123");
-
-        String result=  HttpHelper.http("POST", url, params, datas, null, null);
-        System.out.println(result);
 
 
     }
