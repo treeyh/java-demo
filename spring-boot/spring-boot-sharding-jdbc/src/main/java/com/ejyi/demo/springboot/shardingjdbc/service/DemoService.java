@@ -1,8 +1,10 @@
 package com.ejyi.demo.springboot.shardingjdbc.service;
 
 
+import com.ejyi.demo.springboot.shardingjdbc.mapper.ConfigMapper;
 import com.ejyi.demo.springboot.shardingjdbc.mapper.OrderMapper;
 import com.ejyi.demo.springboot.shardingjdbc.mapper.UserMapper;
+import com.ejyi.demo.springboot.shardingjdbc.po.Config;
 import com.ejyi.demo.springboot.shardingjdbc.po.Order;
 import com.ejyi.demo.springboot.shardingjdbc.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class DemoService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private ConfigMapper configMapper;
 
 
 
@@ -53,6 +58,21 @@ public class DemoService {
                 order.setStatus(1);
                 orderMapper.insert(order);
             }
+        }
+    }
+
+
+    public void demoConfig(){
+
+        List<Integer> ids = new ArrayList<>();
+
+        for(int i=0;i<10; i++){
+            Config config = new Config();
+            config.setConfigId(i);
+            config.setConfigKey("key_"+i);
+            config.setConfigValue("value_"+i);
+            config.setStatus(1);
+            configMapper.insert(config);
         }
     }
 }

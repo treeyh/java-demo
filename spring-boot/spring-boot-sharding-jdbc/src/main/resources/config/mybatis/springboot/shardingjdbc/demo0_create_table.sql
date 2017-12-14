@@ -73,4 +73,14 @@ CREATE TABLE `t_user_1` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+DROP TABLE IF EXISTS `t_config`;
+CREATE TABLE `t_config` (
+  `config_id` int(11) NOT NULL COMMENT '配置编号',
+  `config_key` varchar(32) DEFAULT NULL COMMENT '配置key',
+  `config_value` varchar(512) DEFAULT NULL COMMENT '配置value',
+  `status` int(11) DEFAULT NULL COMMENT '状态，1可用，2不可用',
+  PRIMARY KEY (`config_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 SET FOREIGN_KEY_CHECKS = 1;

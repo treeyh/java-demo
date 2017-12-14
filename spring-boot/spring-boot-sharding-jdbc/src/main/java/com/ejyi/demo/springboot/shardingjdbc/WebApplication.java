@@ -36,7 +36,7 @@ public class WebApplication  extends SpringBootServletInitializer {
 
         logger.info("Application start....");
         ApplicationContext applicationContext = configureApplication(new SpringApplicationBuilder()).run(args);
-        applicationContext.getBean(DemoService.class).demoOrder();
+        applicationContext.getBean(DemoService.class).demoConfig();
         logger.info("Application end....");
     }
 }
