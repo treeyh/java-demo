@@ -10,7 +10,7 @@ mybatis:
 
 #spring:
 #  datasource:
-#    name: wanda
+#    name: ejyi
 #    url: jdbc:mysql://127.0.0.1:3306/demo0?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
 #    username: root
 #    password: mysqlpw
