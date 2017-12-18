@@ -1,0 +1,30 @@
+server:
+  port: 17003
+  application:
+    name: spring-boot-consul
+
+
+
+spring:
+  profiles:
+#    active: @env@
+    active: sit
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+  cloud:
+    consul:
+      host: 127.0.0.1
+#      host: 192.168.0.181
+      port: 8500
+      discovery:
+        enabled: true
+        instance-id: spring-boot-consul
+        hostname: 192.168.0.106
+        port: ${server.port}
+        service-name: ${server.application.name}
+        health-check-interval: 10s
+        tags: dev=dev
+        health-check-url: http://192.168.0.106:${server.port}/health
+#        health-check-path: http://192.168.0.103:${server.port}/health
