@@ -15,8 +15,11 @@
     <modules>
         <module>spring-boot-sharding-jdbc</module>
         <module>spring-boot-base-demo</module>
-        <module>spring-boot-consul</module>
+        <module>spring-boot-consul-service</module>
         <module>spring-boot-eureka-server</module>
+        <module>spring-boot-zuul-server</module>
+        <module>spring-boot-eureka-service</module>
+
     </modules>
 
 
@@ -40,6 +43,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
 
         <dependency>

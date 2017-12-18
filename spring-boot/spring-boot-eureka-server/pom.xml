@@ -24,12 +24,6 @@
         <artifactId>spring-cloud-starter-eureka-server</artifactId>
     </dependency>
 
-        <!-- Json模块 begin -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-        <!-- Json模块 end -->
     </dependencies>
 
     <!--构建节点.-->
