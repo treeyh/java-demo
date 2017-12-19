@@ -1,14 +1,9 @@
 server:
   port: 17003
   application:
-    name: spring-boot-consul
-
-
+    name: spring-boot-consul-service
 
 spring:
-  profiles:
-#    active: @env@
-    active: sit
   http:
     encoding:
       charset: utf-8
@@ -20,11 +15,10 @@ spring:
       port: 8500
       discovery:
         enabled: true
-        instance-id: spring-boot-consul
-        hostname: 192.168.0.106
-        port: ${server.port}
+#        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
         service-name: ${server.application.name}
         health-check-interval: 10s
-        tags: dev=dev
-        health-check-url: http://192.168.0.106:${server.port}/health
+#        tags: dev=dev
+        register: true
+#        instance-id: spring-boot-consul-service
 #        health-check-path: http://192.168.0.103:${server.port}/health
