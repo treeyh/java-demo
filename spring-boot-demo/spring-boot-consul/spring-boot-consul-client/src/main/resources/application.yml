@@ -1,0 +1,22 @@
+server:
+  port: 17004
+  application:
+    name: spring-boot-consul-client
+
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        enabled: true
+        service-name: ${server.application.name}
+        health-check-interval: 10s
+        register: true
+        tags: foo=bar, baz
+        health-check-path: ${management.context-path}/health
+#        hostname: 127.0.0.1
