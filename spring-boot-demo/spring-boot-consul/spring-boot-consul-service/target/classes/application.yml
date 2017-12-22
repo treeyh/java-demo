@@ -11,14 +11,12 @@ spring:
   cloud:
     consul:
       host: 127.0.0.1
-#      host: 192.168.0.181
       port: 8500
       discovery:
         enabled: true
-#        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
         service-name: ${server.application.name}
         health-check-interval: 10s
-#        tags: dev=dev
         register: true
-#        instance-id: spring-boot-consul-service
-#        health-check-path: http://192.168.0.103:${server.port}/health
+        tags: foo=bar, baz
+        health-check-path: ${management.context-path}/health
+#        hostname: 127.0.0.1
