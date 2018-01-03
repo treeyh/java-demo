@@ -31,7 +31,6 @@ public class ConsulClientHelloController {
         return "hello ConsulServer ";
     }
 
-
     @Autowired
     private DiscoveryClient client;
 
@@ -39,11 +38,10 @@ public class ConsulClientHelloController {
     private Integer port;
 
     @Autowired
-    private ServiceFeignClient serviceFeignClient;
-
+    private LoadBalancerClient loadBalancer;
 
     @Autowired
-    private LoadBalancerClient loadBalancer;
+    private ServiceFeignClient serviceFeignClient;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(@RequestParam Integer a, @RequestParam Integer b){

@@ -18,5 +18,5 @@ spring:
         health-check-interval: 10s
         register: true
         tags: foo=bar, baz
-        health-check-path: ${management.context-path}/health
+        health-check-path: /health
 #        hostname: 127.0.0.1
