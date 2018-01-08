@@ -1,0 +1,21 @@
+#spring:
+#  datasource:
+#    name: demo
+#    url: jdbc:mysql://127.0.0.1:3306/demo?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true
+#    username: root
+#    password: mysqlpw
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.jdbc.Driver
+#    filters: config,log4j,stat
+#    maxActive: 30
+#    initialSize: 2
+#    maxWait: 60000
+#    minIdle: 2
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: select 'x'
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#    maxOpenPreparedStatements: 20
