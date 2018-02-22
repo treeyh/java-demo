@@ -2,7 +2,9 @@ package com.ejyi.demo.thread.executor;
 
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Productioner implements Runnable, Serializable {
 
@@ -34,7 +36,12 @@ public class Productioner implements Runnable, Serializable {
                     Thread.sleep(400L);
                 }
                 if(!this.runType){
+                    System.out.println("------------------------stop begin----------------------");
+                    System.out.println(new Date());
                     executor.shutdown();
+//                    executor.awaitTermination(5, TimeUnit.SECONDS);
+                    System.out.println(new Date());
+                    System.out.println("------------------------end begin----------------------");
                     break;
                 }
             } catch (InterruptedException e) {

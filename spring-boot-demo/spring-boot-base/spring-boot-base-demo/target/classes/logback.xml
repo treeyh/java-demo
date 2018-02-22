@@ -83,7 +83,7 @@
     <!-- ===== [公共Logger] ===== -->
 
     <!-- 1,COMMON.LOG -->
-    <logger name="com.wanda.yycy">
+    <logger name="com.ejyi.demo">
         <level value="ERROR"/>
         <appender-ref ref="STDERR-APPENDER" />
         <appender-ref ref="ERROR-APPENDER" />

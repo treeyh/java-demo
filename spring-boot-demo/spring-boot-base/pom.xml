@@ -19,7 +19,9 @@
         <skipTests>true</skipTests>
         <env>dev</env>
 
-        <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
+        <!--<spring.cloud.version>Dalston.RELEASE</spring.cloud.version>-->
+        <spring.cloud.version>Edgware.SR1</spring.cloud.version>
+
         <spring-cloud-netflix.version>1.2.2.RELEASE</spring-cloud-netflix.version>
 
         <fastjson.version>1.2.29</fastjson.version>
@@ -40,6 +42,11 @@
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     </properties>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.9.RELEASE</version>
+    </parent>
 
     <dependencyManagement>
         <dependencies>
@@ -102,16 +109,11 @@
 
 
 
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
             <dependency>
-                <groupId>com.ejyi.demo</groupId>
-                <artifactId>demo-common</artifactId>
-                <version>${ejyi.java.demo.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ejyi.demo</groupId>
-                <artifactId>demo-model</artifactId>
-                <version>${ejyi.java.demo.version}</version>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.8</version>
             </dependency>
 
 

@@ -4,12 +4,14 @@ server:
     name: spring-boot-base-demo
 
 
-
+mybatis:
+  mapperLocations: classpath:config/mybatis/springboot/base/demo/*.xml
+  typeAliasesPackage: com.ejyi.demo.springboot.base.demo.po
 
 
 spring:
   profiles:
-#    active: @env@
+#    active: dev
     active: sit
   http:
     encoding:

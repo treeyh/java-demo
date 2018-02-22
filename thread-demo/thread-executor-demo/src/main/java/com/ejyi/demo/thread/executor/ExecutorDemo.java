@@ -18,8 +18,8 @@ public class ExecutorDemo {
         //ExecutorService exec = Executors.newCachedThreadPool();
 
         executor  = new ThreadPoolExecutor(2, 4, 2000L,
-                TimeUnit.MILLISECONDS, linkedBlockingDeque);
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+                TimeUnit.MILLISECONDS, linkedBlockingDeque, new ThreadPoolExecutor.CallerRunsPolicy());
+//        executor.setRejectedExecutionHandler();
 
         productioner = new Productioner(executor);
         Thread thread = new Thread(productioner);
