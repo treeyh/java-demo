@@ -1,0 +1,28 @@
+server:
+  port: 0
+  application:
+    name: spring-boot-grpc-service
+
+grpc:
+  server:
+    port: 17007
+
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        enabled: true
+        service-name: ${server.application.name}
+        health-check-interval: 10s
+        tags: foo=bar, baz
+# 可以设置自定义健康监测接口
+        health-check-path: /health
+# 自定义脚本监测配置false
+#        register: false
+        register: true

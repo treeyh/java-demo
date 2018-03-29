@@ -1,0 +1,88 @@
+// Copyright 2015, gRPC Authors
+// All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.ejyi.demo.springboot.grpc.proto.hello";
+option java_outer_classname = "HelloProto";
+option objc_class_prefix = "HLW";
+
+package helloworld;
+
+// The greeting service definition.
+service Hello {
+
+    // A simple RPC.
+    //
+    rpc SayHello (HelloRequest1) returns (HelloReply1) {}
+
+    // A server-to-client streaming RPC.
+    //
+    rpc SayHello2 (HelloRequest2) returns (stream HelloReply2) {}
+
+    // A client-to-server streaming RPC.
+    //
+    rpc SayHello3 (stream HelloRequest2) returns (HelloReply2) {}
+
+    // A Bidirectional streaming RPC.
+    //
+    rpc SayHello4 (stream HelloRequest2) returns (stream HelloReply2) {}
+
+    // A Bidirectional streaming RPC.
+    //
+    rpc SayHello5 (stream HelloRequest2) returns (stream HelloRequest2) {}
+}
+
+enum HelloType{
+    Type1 = 0;
+    Type2 = 1;
+    Type3 = 2;
+}
+
+// The request message containing the user's name.
+message HelloRequest1 {
+    string name = 1;
+    int32 id = 2;
+    HelloType HelloType  = 3;
+    map<string, string> mapStr = 4;
+
+}
+
+// The request message containing the user's name.
+message HelloRequest2 {
+    string name = 1;
+    int32 id = 2;
+    HelloType HelloType  = 3;
+    map<string, string> mapStr = 4;
+    HelloRequest1 helloRequest1 = 5;
+    map<string, HelloRequest1> mapHelloRequest = 6;
+}
+
+// The response message containing the greetings
+message HelloReply1 {
+    string message = 1;
+    int32 id = 2;
+    map<string, string> map = 3;
+}
+
+
+// The response message containing the greetings
+message HelloReply2 {
+    string message = 1;
+    int32 id = 2;
+    HelloReply1 helloReply1 = 3;
+    map<string, HelloReply1> map = 4;
+
+}
