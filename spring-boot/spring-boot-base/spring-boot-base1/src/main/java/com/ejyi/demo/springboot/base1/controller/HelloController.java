@@ -43,7 +43,7 @@ public class HelloController {
         validation.isValidThrowException();
 
         logger.info("hello run.");
-        String str = "hello " + helloName + "; age " + age +".";
+        String str = "{\"status\":200,\"data\":\"data\",\""+helloName+"\":\""+age+"\"}";
         return str;
     }
 
