@@ -29,7 +29,7 @@
         <!--<spring.cloud.version>Dalston.SR4</spring.cloud.version>-->
         <spring.cloud.version>Edgware.RELEASE</spring.cloud.version>
         <spring-cloud-netflix.version>1.2.2.RELEASE</spring-cloud-netflix.version>
-        <spring-boot-grpc.version>1.3.0-RELEASE</spring-boot-grpc.version>
+        <spring-boot-grpc.version>2.3.0</spring-boot-grpc.version>
 
 
         <fastjson.version>1.2.29</fastjson.version>
@@ -108,29 +108,9 @@
             </dependency>
 
 
-
-
-
-
-
-
-
-
-
-
             <dependency>
-                <groupId>net.devh</groupId>
-                <artifactId>grpc-lib</artifactId>
-                <version>${spring-boot-grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.devh</groupId>
-                <artifactId>grpc-client-spring-boot-starter</artifactId>
-                <version>${spring-boot-grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.devh</groupId>
-                <artifactId>grpc-server-spring-boot-starter</artifactId>
+                <groupId>org.lognet</groupId>
+                <artifactId>grpc-spring-boot-starter</artifactId>
                 <version>${spring-boot-grpc.version}</version>
             </dependency>
 
@@ -275,34 +255,6 @@
 
 
 
-            <!-- mybatis begin -->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.21</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>1.0.31</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.shardingjdbc</groupId>
-                <artifactId>sharding-jdbc-core-spring-boot-starter</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            <!-- mybatis end -->
         </dependencies>
     </dependencyManagement>
 

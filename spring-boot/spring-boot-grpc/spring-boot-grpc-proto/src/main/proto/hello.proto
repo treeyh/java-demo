@@ -62,12 +62,9 @@ message HelloRequest1 {
 
 // The request message containing the user's name.
 message HelloRequest2 {
-    string name = 1;
-    int32 id = 2;
-    HelloType HelloType  = 3;
-    map<string, string> mapStr = 4;
-    HelloRequest1 helloRequest1 = 5;
-    map<string, HelloRequest1> mapHelloRequest = 6;
+    map<string, string> mapStr = 1;
+    HelloRequest1 helloRequest1 = 2;
+    map<string, HelloRequest1> mapHelloRequest = 3;
 }
 
 // The response message containing the greetings

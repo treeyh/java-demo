@@ -1,0 +1,101 @@
+package com.ejyi.springboot.grpc.service;
+
+import com.ejyi.demo.springboot.grpc.proto.calculator.CalculatorGrpc;
+import com.ejyi.demo.springboot.grpc.proto.calculator.CalculatorOuterClass;
+import com.ejyi.demo.springboot.grpc.service.WebGrpcServiceApplication;
+import io.grpc.ServerInterceptor;
+import io.grpc.health.v1.HealthCheckRequest;
+import io.grpc.health.v1.HealthCheckResponse;
+import io.grpc.health.v1.HealthGrpc;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.lognet.springboot.grpc.GRpcServerBuilderConfigurer;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.concurrent.ExecutionException;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {WebGrpcServiceApplication.class,TestConfig.class}, webEnvironment = RANDOM_PORT)
+public class WebGrpcServiceTest extends GrpcServerTestBase{
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Rule
+    public OutputCapture outputCapture = new OutputCapture();
+
+    @Autowired
+    @Qualifier("globalInterceptor")
+    private ServerInterceptor globalInterceptor;
+
+
+    @Test
+    public void disabledServerTest() throws Throwable {
+        assertNotNull(grpcServerRunner);
+        assertNull(grpcInprocessServerRunner);
+    }
+
+    @Test
+    public void interceptorsTest() throws ExecutionException, InterruptedException {
+
+        GreeterGrpc.newFutureStub(channel)
+                .sayHello(GreeterOuterClass.HelloRequest.newBuilder().setName("name").build())
+                .get().getMessage();
+
+        CalculatorGrpc.newFutureStub(channel)
+                .calculate(CalculatorOuterClass.CalculatorRequest.newBuilder().setNumber1(1).setNumber2(1).build())
+                .get().getResult();
+
+        // global interceptor should be invoked once on each service
+        Mockito.verify(globalInterceptor,Mockito.times(2)).interceptCall(Mockito.any(),Mockito.any(),Mockito.any());
+
+
+        // log interceptor should be invoked only on GreeterService and not CalculatorService
+        outputCapture.expect(containsString(GreeterGrpc.getSayHelloMethod().getFullMethodName()));
+        outputCapture.expect(not(containsString(CalculatorGrpc.getCalculateMethod().getFullMethodName())));
+
+
+        outputCapture.expect(containsString("I'm not Spring bean interceptor and still being invoked..."));
+    }
+
+    @Test
+    public void actuatorTest() throws ExecutionException, InterruptedException {
+        ResponseEntity<String> response = restTemplate.getForEntity("/env", String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+
+    @Test
+    public void testDefaultConfigurer(){
+        Assert.assertEquals("Default configurer should be picked up",
+                context.getBean(GRpcServerBuilderConfigurer.class).getClass(),
+                GRpcServerBuilderConfigurer.class);
+    }
+
+
+    @Test
+    public void testHealthCheck() throws ExecutionException, InterruptedException {
+        final HealthCheckRequest healthCheckRequest = HealthCheckRequest.newBuilder().setService(GreeterGrpc.getServiceDescriptor().getName()).build();
+        final HealthGrpc.HealthFutureStub healthFutureStub = HealthGrpc.newFutureStub(channel);
+        final HealthCheckResponse.ServingStatus servingStatus = healthFutureStub.check(healthCheckRequest).get().getStatus();
+        assertNotNull(servingStatus);
+        assertEquals(servingStatus, HealthCheckResponse.ServingStatus.SERVING);
+    }
+}

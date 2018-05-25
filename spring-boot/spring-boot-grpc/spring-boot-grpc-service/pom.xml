@@ -26,6 +26,13 @@
             <artifactId>spring-boot-grpc-proto</artifactId>
         </dependency>
 
+
+
+        <dependency>
+            <groupId>com.ejyi.demo.springboot.grpc</groupId>
+            <artifactId>spring-boot-grpc-proto</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty</artifactId>
@@ -81,18 +88,24 @@
 
 
 
+
         <dependency>
-            <groupId>net.devh</groupId>
-            <artifactId>grpc-lib</artifactId>
+            <groupId>org.lognet</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>net.devh</groupId>
-            <artifactId>grpc-server-spring-boot-starter</artifactId>
-        </dependency>
+
+
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-common</artifactId>
             <version>4.1.14.Final</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
