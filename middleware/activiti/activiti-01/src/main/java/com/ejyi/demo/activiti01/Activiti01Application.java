@@ -1,13 +1,9 @@
 package com.ejyi.demo.activiti01;
 
-import com.dadaabc.demo.springboot.web.WebApplication;
-import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author tree.yu
@@ -15,13 +11,13 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @description 描述
  * @create 2018-11-04 22:25
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class Activiti01Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = (new SpringApplicationBuilder()).sources(WebApplication.class)
-                .bannerMode(Banner.Mode.CONSOLE).logStartupInfo(true).registerShutdownHook(true).web(true).run(args);
-
+//        ConfigurableApplicationContext context = (new SpringApplicationBuilder()).sources(Activiti01Application.class)
+//                .bannerMode(Banner.Mode.CONSOLE).logStartupInfo(true).registerShutdownHook(true).web(true).run(args);
+        SpringApplication.run(Activiti01Application.class, args);
 
 
     }
