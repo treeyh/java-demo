@@ -147,13 +147,6 @@
                 <version>8.0.11</version>
             </dependency>
 
-            <!-- kafka client -->
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>0.10.0.0</version>
-            </dependency>
-
             <!-- Json模块 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -161,12 +154,12 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.9.6</version>
-            </dependency>
+            <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+                <!--<artifactId>jackson-databind</artifactId>-->
+                <!--<version>2.9.6</version>-->
+            <!--</dependency>-->
 
             <!-- httpclient -->
             <dependency>
@@ -185,49 +178,33 @@
 
 
 
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-awt-util</artifactId>
-                <version>1.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-dom</artifactId>
-                <version>1.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-svggen</artifactId>
-                <version>1.7</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-awt-util</artifactId>
-                <version>1.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-dom</artifactId>
-                <version>1.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-svggen</artifactId>
-                <version>1.7</version>
-            </dependency>
-
-            <!-- https://mvnrepository.com/artifact/org.activiti/activiti-engine -->
             <!--<dependency>-->
-            <!--<groupId>org.activiti</groupId>-->
-            <!--<artifactId>activiti-engine</artifactId>-->
-            <!--<version>6.0.0</version>-->
+                <!--<groupId>org.apache.xmlgraphics</groupId>-->
+                <!--<artifactId>batik-awt-util</artifactId>-->
+                <!--<version>1.7</version>-->
             <!--</dependency>-->
             <!--<dependency>-->
-            <!--<groupId>org.activiti</groupId>-->
-            <!--<artifactId>activiti-spring</artifactId>-->
-            <!--<version>6.0.0</version>-->
+                <!--<groupId>org.apache.xmlgraphics</groupId>-->
+                <!--<artifactId>batik-dom</artifactId>-->
+                <!--<version>1.7</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.xmlgraphics</groupId>-->
+                <!--<artifactId>batik-svggen</artifactId>-->
+                <!--<version>1.7</version>-->
+            <!--</dependency>-->
+
+
+            <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.activiti/activiti-engine &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>org.activiti</groupId>-->
+                <!--<artifactId>activiti-engine</artifactId>-->
+                <!--<version>${activiti.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.activiti</groupId>-->
+                <!--<artifactId>activiti-spring</artifactId>-->
+                <!--<version>${activiti.version}</version>-->
             <!--</dependency>-->
 
             <!-- https://mvnrepository.com/artifact/org.activiti/activiti-services-api -->
@@ -251,11 +228,58 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web-services</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- 单元测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.activiti/activiti-services-api -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter-basic</artifactId>
         </dependency>
 
 
 
+
+        <!-- db mybatis begin -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
         <!-- httpclient -->
         <dependency>
@@ -279,26 +303,12 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
 
-
-        <!-- 单元测试依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--<artifactId>jackson-databind</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
@@ -315,36 +325,17 @@
 
 
 
-        <!--<dependency>-->
-            <!--<groupId>org.apache.xmlgraphics</groupId>-->
-            <!--<artifactId>batik-awt-util</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.xmlgraphics</groupId>-->
-            <!--<artifactId>batik-dom</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.xmlgraphics</groupId>-->
-            <!--<artifactId>batik-svggen</artifactId>-->
-        <!--</dependency>-->
-
         <!-- https://mvnrepository.com/artifact/org.activiti/activiti-engine -->
         <!--<dependency>-->
-        <!--<groupId>org.activiti</groupId>-->
-        <!--<artifactId>activiti-engine</artifactId>-->
-        <!--<version>6.0.0</version>-->
+            <!--<groupId>org.activiti</groupId>-->
+            <!--<artifactId>activiti-engine</artifactId>-->
+            <!--<version>6.0.0</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-        <!--<groupId>org.activiti</groupId>-->
-        <!--<artifactId>activiti-spring</artifactId>-->
-        <!--<version>6.0.0</version>-->
+            <!--<groupId>org.activiti</groupId>-->
+            <!--<artifactId>activiti-spring</artifactId>-->
+            <!--<version>6.0.0</version>-->
         <!--</dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.activiti/activiti-services-api -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter-basic</artifactId>
-        </dependency>
 
     </dependencies>
 
