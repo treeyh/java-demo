@@ -287,6 +287,12 @@
             <artifactId>okhttp</artifactId>
         </dependency>
 
+        <!-- Json模块 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
 
         <!-- logback -->
         <dependency>
