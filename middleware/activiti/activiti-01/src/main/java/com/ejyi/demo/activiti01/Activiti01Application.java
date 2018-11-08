@@ -1,6 +1,7 @@
 package com.ejyi.demo.activiti01;
 
 import com.alibaba.fastjson.JSON;
+import com.ejyi.demo.activiti01.cache.MyDeploymentCache;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.EndEvent;
 import org.activiti.bpmn.model.SequenceFlow;
@@ -13,6 +14,8 @@ import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -49,12 +52,16 @@ public class Activiti01Application extends SpringBootServletInitializer {
         // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
-        activitiProcessInstance(engine);
-        activitiGroupOper(engine);
+//        activitiProcessInstance(engine);
+//        activitiGroupOper(engine);
 
 //        activitiDeployment(engine);
 
 //        activitiDeployment2(engine);
+
+        activitiProcessCache(engine);
+
+
     }
 
     /**
@@ -70,7 +77,7 @@ public class Activiti01Application extends SpringBootServletInitializer {
         // 获取流程任务组件
         TaskService taskService = engine.getTaskService();
         // 部署流程文件
-        repositoryService.createDeployment()
+        Deployment deployment = repositoryService.createDeployment()
                 .addClasspathResource("bpmn/First.bpmn").deploy();
         // 启动流程
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("process1");
@@ -150,6 +157,8 @@ public class Activiti01Application extends SpringBootServletInitializer {
         ZipInputStream zis = new ZipInputStream(fis);
 
         db.addZipInputStream(zis);
+        //过滤重复发布
+        db.enableDuplicateFiltering();
         db.deploy();
     }
 
@@ -200,5 +209,40 @@ public class Activiti01Application extends SpringBootServletInitializer {
     }
 
 
+    /**
+     * 流程部署缓存
+     * @param engine
+     */
+    private static void activitiProcessCache(ProcessEngine engine){
+
+        ProcessEngineConfiguration config1= engine.getProcessEngineConfiguration();
+        System.out.println(config1.getClass().getTypeName());
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        String id = "";
+        Deployment deployment = null;
+        for(int i = 0; i<10; i++) {
+            deployment = repositoryService.createDeployment()
+                    .addClasspathResource("bpmn/First.bpmn").name("process_"+i).key("key_"+i).deploy();
+            id = deployment.getId();
+        }
+
+        ProcessEngineConfigurationImpl config = (ProcessEngineConfigurationImpl)engine.getProcessEngineConfiguration();
+
+        //获取缓存
+        MyDeploymentCache cache = (MyDeploymentCache) config
+                .getProcessDefinitionCache();
+
+        System.out.println(id);
+        System.out.println(cache.getCache());
+        System.out.println(JSON.toJSON(cache.get(id)));
+
+    }
 
 }
