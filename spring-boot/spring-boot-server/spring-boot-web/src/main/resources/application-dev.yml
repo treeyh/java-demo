@@ -1,0 +1,31 @@
+
+
+spring:
+  application:
+    name: ${pro.name}
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://192.168.170.17:3306/springboot_demo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
+      username: root
+      password: test
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      maximum-pool-size: 15
+      pool-name: ${pro.name}-db
+    name: demo
+    filters: config,log4j,stat
+  redis:
+    host: 192.168.170.20
+    #    password:
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 4
+        max-wait: -1ms
+        min-idle: 2
+
+
+
+logging:
+  path: /data/logs/${pro.name}
+  register-shutdown-hook: false
