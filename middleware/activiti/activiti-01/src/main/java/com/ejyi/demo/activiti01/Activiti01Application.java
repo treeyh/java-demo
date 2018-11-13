@@ -1,6 +1,7 @@
 package com.ejyi.demo.activiti01;
 
 import com.alibaba.fastjson.JSON;
+import com.ejyi.demo.activiti01.bo.PersonBo;
 import com.ejyi.demo.activiti01.cache.MyDeploymentCache;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.EndEvent;
@@ -14,9 +15,11 @@ import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.boot.SecurityAutoConfiguration;
@@ -29,6 +32,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.UUID;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -59,9 +64,17 @@ public class Activiti01Application extends SpringBootServletInitializer {
 
 //        activitiDeployment2(engine);
 
-        activitiProcessCache(engine);
+//        activitiProcessCache(engine);
 
+//        activitiTaskCandidateUser(engine);
 
+//        activitiTaskOwnerUser(engine);
+
+//        activitiTaskVar(engine);
+
+//        activitiTaskVarLocal(engine);
+
+        activitiProcessInstanceStart(engine);
     }
 
     /**
@@ -236,13 +249,172 @@ public class Activiti01Application extends SpringBootServletInitializer {
         ProcessEngineConfigurationImpl config = (ProcessEngineConfigurationImpl)engine.getProcessEngineConfiguration();
 
         //获取缓存
-        MyDeploymentCache cache = (MyDeploymentCache) config
-                .getProcessDefinitionCache();
+        MyDeploymentCache cache = (MyDeploymentCache) config.getProcessDefinitionCache();
 
         System.out.println(id);
         System.out.println(cache.getCache());
         System.out.println(JSON.toJSON(cache.get(id)));
+    }
+
+    /**
+     * 任务关联候选用户
+     * @param engine
+     */
+    private static void activitiTaskCandidateUser(ProcessEngine engine){
+        TaskService ts = engine.getTaskService();
+        IdentityService is = engine.getIdentityService();
+
+        //创建任务，绑定用户
+        String taskId = UUID.randomUUID().toString();
+        Task task = ts.newTask(taskId);
+        task.setName("测试候选任务");
+        ts.saveTask(task);
+
+        String userId = UUID.randomUUID().toString();
+        User user = is.newUser(userId);
+        user.setFirstName("Tree");
+        is.saveUser(user);
+
+        ts.addCandidateUser(taskId, userId);
+
+
+        //查询用户有权限处理的任务
+        List<Task> tasks = ts.createTaskQuery().taskCandidateOrAssigned(userId).list();
+
+        System.out.println("用户有权限处理的任务：");
+        for (Task t : tasks){
+            System.out.println(t.getName());
+        }
+    }
+
+
+    /**
+     * 任务关联持有用户和代理用户
+     * @param engine
+     */
+    private static void activitiTaskOwnerUser(ProcessEngine engine){
+        TaskService ts = engine.getTaskService();
+        IdentityService is = engine.getIdentityService();
+
+        //创建任务，绑定用户
+        String taskId = UUID.randomUUID().toString();
+        Task task = ts.newTask(taskId);
+        task.setName("测试持有任务");
+        ts.saveTask(task);
+
+        String userId = UUID.randomUUID().toString();
+        User user = is.newUser(userId);
+        user.setFirstName("Tree");
+        is.saveUser(user);
+
+        ts.setOwner(taskId, userId);
+
+        //创建代理人，代理人只能设置一次
+        ts.claim(taskId, userId);
+
+        //查询用户有权限处理的任务
+        List<Task> tasks = ts.createTaskQuery().taskOwner(userId).list();
+
+        System.out.println("用户持有的任务：");
+        for (Task t : tasks){
+            System.out.println(t.getName());
+        }
+
+        tasks = ts.createTaskQuery().taskAssignee(userId).list();
+        System.out.println("用户代理的任务：");
+        for (Task t : tasks){
+            System.out.println(t.getName());
+        }
+    }
+
+
+    /**
+     * 任务参数及附件
+     * @param engine
+     */
+    private static void activitiTaskVar(ProcessEngine engine){
+        TaskService taskService = engine.getTaskService();
+
+        Task task = taskService.newTask(Long.valueOf(System.currentTimeMillis()).toString());
+        task.setName("测试任务");
+        taskService.saveTask(task);
+
+        PersonBo personBo = new PersonBo();
+        personBo.setId(1);
+        personBo.setName("tree");
+
+        taskService.setVariable(task.getId(), "var1", "hello world");
+        taskService.setVariable(task.getId(), "person", personBo);
+
+        System.out.println(taskService.getVariable(task.getId(), "var1"));
+        PersonBo personBo1 = taskService.getVariable(task.getId(), "person", PersonBo.class);
+        System.out.println(personBo1.getId() +"-"+ personBo1.getName());
+    }
+
+
+    /**
+     * 任务本地参数
+     * @param engine
+     */
+    private static void activitiTaskVarLocal(ProcessEngine engine){
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/First.bpmn").deploy();
+        // 启动流程
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("process1");
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+
+        Task task2 = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        taskService.setVariable(task2.getId(), "var", 1);
+        taskService.setVariableLocal(task2.getId(), "varLocal", 3);
+        System.out.println("========================================================================第一个任务完成前，当前任务名称：" + task2.getName()+"; var:"+taskService.getVariable(task2.getId(), "var")+"; varLocal:"+taskService.getVariableLocal(task2.getId(), "varLocal"));
+        taskService.complete(task2.getId());
+
+        task2 = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        System.out.println("========================================================================第二个任务完成前，当前任务名称：" + task2.getName()+"; var:"+taskService.getVariable(task2.getId(), "var")+"; varLocal:"+taskService.getVariableLocal(task2.getId(), "varLocal"));
+
+        taskService.complete(task2.getId());
+        task2 = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        System.out.println("========================================================================流程结束后，当前任务名称：" + task2);
 
     }
+
+
+    /**
+     * 流程启动
+     * @param engine
+     */
+    private static void activitiProcessInstanceStart(ProcessEngine engine){
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/First.bpmn").deploy();
+
+        // 启动流程
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+
+        System.out.println(processInstance.getId());
+    }
+
+
+
+
 
 }
