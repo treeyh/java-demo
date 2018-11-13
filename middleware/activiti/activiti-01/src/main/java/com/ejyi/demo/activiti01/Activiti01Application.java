@@ -20,6 +20,7 @@ import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.spring.boot.SecurityAutoConfiguration;
@@ -74,8 +75,13 @@ public class Activiti01Application extends SpringBootServletInitializer {
 
 //        activitiTaskVarLocal(engine);
 
-        activitiProcessInstanceStart(engine);
+//        activitiProcessInstanceStart(engine);
+
+//        activitiProcessInstanceStart2(engine);
+
+        activitiProcessInstanceOper(engine);
     }
+
 
     /**
      * 流程例子
@@ -402,13 +408,19 @@ public class Activiti01Application extends SpringBootServletInitializer {
         // 获取流程任务组件
         TaskService taskService = engine.getTaskService();
         // 部署流程文件
+//        Deployment deployment = repositoryService.createDeployment()
+//                .addClasspathResource("bpmn/First.bpmn").deploy();
         Deployment deployment = repositoryService.createDeployment()
-                .addClasspathResource("bpmn/First.bpmn").deploy();
+                .addClasspathResource("bpmn/multi.bpmn").deploy();
 
         // 启动流程
         ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+
+        //startProcessInstanceByKey
+        //startProcessInstanceByMessage
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId(), "business_key");
 
         System.out.println(processInstance.getId());
     }
@@ -416,5 +428,99 @@ public class Activiti01Application extends SpringBootServletInitializer {
 
 
 
+    /**
+     * 流程启动2
+     * @param engine
+     */
+    private static void activitiProcessInstanceStart2(ProcessEngine engine){
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+//        Deployment deployment = repositoryService.createDeployment()
+//                .addClasspathResource("bpmn/First.bpmn").deploy();
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/scope.bpmn").deploy();
 
+        // 启动流程
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        //startProcessInstanceByKey
+        //startProcessInstanceByMessage
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId(), "business_key");
+
+        System.out.println(processInstance.getId());
+
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+
+        for (Task task : tasks){
+            System.out.println("taskid:"+task.getId()+"-"+task.getName());
+            Execution execution = runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+
+            if("TaskA".equals(task.getName())){
+                runtimeService.setVariableLocal(execution.getId(), "taskVarA", "varA");
+                //用下面的TaskService也可行
+//                taskService.setVariableLocal(task.getId(), "taskVarA", "varA");
+            }else if("TaskB".equals(task.getName())){
+                runtimeService.setVariable(execution.getId(), "taskVarB", "varB");
+//                taskService.setVariable(task.getId(), "taskVarB", "varB");
+            }
+            taskService.complete(task.getId());
+        }
+
+        tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+
+        for(Task task : tasks){
+            System.out.println("taskid:"+task.getId()+"-"+task.getName());
+            Execution execution = runtimeService.createExecutionQuery().executionId(task.getExecutionId()).singleResult();
+//            System.out.println("taskVarA:"+runtimeService.getVariableLocal(execution.getId(), "taskVarA"));
+//            System.out.println("taskVarB:"+runtimeService.getVariable(execution.getId(), "taskVarB"));
+            System.out.println("taskVarA:"+taskService.getVariableLocal(task.getId(), "taskVarA"));
+            System.out.println("taskVarB:"+taskService.getVariable(task.getId(), "taskVarB"));
+        }
+
+        System.out.println(processInstance.getId());
+    }
+
+
+    /**
+     * 流程操作
+     * @param engine
+     */
+    private static void activitiProcessInstanceOper(ProcessEngine engine){
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+//        Deployment deployment = repositoryService.createDeployment()
+//                .addClasspathResource("bpmn/First.bpmn").deploy();
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/First.bpmn").deploy();
+
+        // 启动流程
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+
+        //startProcessInstanceByKey
+        //startProcessInstanceByMessage
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId(), "business_key");
+
+        //查询当前的执行流
+        Execution execution = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().singleResult();
+
+        System.out.println(processInstance.getId()+";当前节点:"+execution.getActivityId());
+
+        runtimeService.trigger(execution.getId());
+
+        //查询当前的执行流
+        execution = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().singleResult();
+        System.out.println(processInstance.getId()+";当前节点:"+execution.getActivityId());
+    }
 }
