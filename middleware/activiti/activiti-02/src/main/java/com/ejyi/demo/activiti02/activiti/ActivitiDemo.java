@@ -22,7 +22,7 @@ public class ActivitiDemo {
      * 定时器启动事件
      * @param engine
      */
-    public static void timerProcessTask(ProcessEngine engine) throws InterruptedException {
+    public static void timerStartProcessTask(ProcessEngine engine) throws InterruptedException {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -49,7 +49,7 @@ public class ActivitiDemo {
      * 消息启动事件
      * @param engine
      */
-    public static void messageProcessTask(ProcessEngine engine)  {
+    public static void messageStartProcessTask(ProcessEngine engine)  {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -74,7 +74,7 @@ public class ActivitiDemo {
      * 错误启动事件
      * @param engine
      */
-    public static void errorProcessTask(ProcessEngine engine)  {
+    public static void errorStartProcessTask(ProcessEngine engine)  {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -94,4 +94,32 @@ public class ActivitiDemo {
         System.out.println("启动流程数量："+count);
 
     }
+
+
+
+    /**
+     * 错误结束事件
+     * @param engine
+     */
+    public static void errorEndProcessTask(ProcessEngine engine)  {
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/error2.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+
+        System.out.println(pi.getId());
+
+        long count = runtimeService.createProcessInstanceQuery().count();
+        System.out.println("启动流程数量："+count);
+
+    }
+
 }

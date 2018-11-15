@@ -34,12 +34,14 @@ public class Activiti02Application extends SpringBootServletInitializer {
         // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
+//        ActivitiDemo.timerStartProcessTask(engine);
 
-//        ActivitiDemo.timerProcessTask(engine);
+//        ActivitiDemo.messageStartProcessTask(engine);
 
-//        ActivitiDemo.messageProcessTask(engine);
+//        ActivitiDemo.errorStartProcessTask(engine);
 
-        ActivitiDemo.errorProcessTask(engine);
+        ActivitiDemo.errorEndProcessTask(engine);
+
 
     }
 
