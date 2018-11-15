@@ -536,6 +536,75 @@ public class ActivitiDemo {
 
     }
 
+    /**
+     * 流程删除
+     * @param engine
+     */
+    public static void activitiProcessInstanceDelete(ProcessEngine engine){
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+//        Deployment deployment = repositoryService.createDeployment()
+//                .addClasspathResource("bpmn/First.bpmn").deploy();
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/First.bpmn").deploy();
+
+        // 启动流程
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+
+        //startProcessInstanceByKey
+        //startProcessInstanceByMessage
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId(), "business_key");
+
+        long count = runtimeService.createProcessInstanceQuery().count();
+        System.out.println("启动流程数量："+count);
+
+        runtimeService.deleteProcessInstance(processInstance.getId(), "process delete");
+
+        count = runtimeService.createProcessInstanceQuery().count();
+        System.out.println("启动流程数量："+count);
+    }
+
+
+    /**
+     * 流程异步job
+     * @param engine
+     */
+    public static void activitiProcessInstanceAsyncTask(ProcessEngine engine){
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+        // 获取流程任务组件
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+//        Deployment deployment = repositoryService.createDeployment()
+//                .addClasspathResource("bpmn/First.bpmn").deploy();
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/service_task.bpmn").deploy();
+
+        // 启动流程
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+//        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId());
+
+        //startProcessInstanceByKey
+        //startProcessInstanceByMessage
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(pd.getId(), "activitiProcessInstanceAsyncTask");
+
+        System.out.println("执行流id："+processInstance.getId());
+
+        long count = runtimeService.createProcessInstanceQuery().count();
+        System.out.println("启动流程数量："+count);
+
+    }
 
     /**
      * 将用户组数据保存到数据库中

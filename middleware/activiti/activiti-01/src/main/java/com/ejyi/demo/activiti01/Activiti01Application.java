@@ -57,7 +57,13 @@ public class Activiti01Application extends SpringBootServletInitializer {
 
 //        ActivitiDemo.activitiProcessInstanceOper(engine);
 
-        ActivitiDemo.activitiCandidateQuery(engine);
+//        ActivitiDemo.activitiCandidateQuery(engine);
+
+//        ActivitiDemo.activitiProcessInstanceDelete(engine);
+
+        ActivitiDemo.activitiProcessInstanceAsyncTask(engine);
+
+
 
     }
 
