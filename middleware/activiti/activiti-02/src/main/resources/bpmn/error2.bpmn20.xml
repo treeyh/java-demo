@@ -4,12 +4,12 @@
 
     <process id="error_process" name="error_process" isExecutable="true">
         <startEvent id="startEvent1"></startEvent>
-        <serviceTask id="sid-6ECB1977-B10C-4D03-8FE1-4180DBF4B0F3" name="Count People" activiti:class="com.ejyi.demo.activiti02.activiti.Count2Delegate"></serviceTask>
+        <serviceTask id="sid-6ECB1977-B10C-4D03-8FE1-4180DBF4B0F3" name="Count People" activiti:class="com.ejyi.demo.activiti02.activiti.delegate.Count2Delegate"></serviceTask>
         <subProcess id="sid-12F30695-047E-4EFF-9E26-E34E7C4DCE84" name="subProcess" triggeredByEvent="true">
             <startEvent id="sid-85550F46-5869-4A88-A769-9AB4A1FA704B" activiti:isInterrupting="false">
                 <errorEventDefinition errorRef="countErrorId"></errorEventDefinition>
             </startEvent>
-            <serviceTask id="sid-56106943-B4AA-4824-9C0B-DF41183058B7" name="Report" activiti:class="com.ejyi.demo.activiti02.activiti.ReportDelegate"></serviceTask>
+            <serviceTask id="sid-56106943-B4AA-4824-9C0B-DF41183058B7" name="Report" activiti:class="com.ejyi.demo.activiti02.activiti.delegate.ReportDelegate"></serviceTask>
             <endEvent id="sid-B959C9FE-AFA8-4BEB-B7AF-CFD93178665A"></endEvent>
             <sequenceFlow id="sid-31B7A4AC-D182-4E11-8CA2-E5CD71961084" sourceRef="sid-85550F46-5869-4A88-A769-9AB4A1FA704B" targetRef="sid-56106943-B4AA-4824-9C0B-DF41183058B7"></sequenceFlow>
             <sequenceFlow id="sid-FC2731F7-2F03-4784-B328-3F724C311A07" sourceRef="sid-56106943-B4AA-4824-9C0B-DF41183058B7" targetRef="sid-B959C9FE-AFA8-4BEB-B7AF-CFD93178665A"></sequenceFlow>

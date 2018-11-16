@@ -40,8 +40,9 @@ public class Activiti02Application extends SpringBootServletInitializer {
 
 //        ActivitiDemo.errorStartProcessTask(engine);
 
-        ActivitiDemo.errorEndProcessTask(engine);
+//        ActivitiDemo.errorEndProcessTask(engine);
 
+        ActivitiDemo.cancelEndProcessTask(engine);
 
     }
 

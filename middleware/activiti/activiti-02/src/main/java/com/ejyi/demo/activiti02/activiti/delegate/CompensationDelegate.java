@@ -1,4 +1,4 @@
-package com.ejyi.demo.activiti02.activiti;
+package com.ejyi.demo.activiti02.activiti.delegate;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
@@ -7,12 +7,11 @@ import org.activiti.engine.delegate.JavaDelegate;
  * @author 余海
  * @version 1.0
  * @description 描述
- * @create 2018-11-15 9:28 PM
+ * @create 2018-11-16 2:24 PM
  */
-public class ReportDelegate implements JavaDelegate {
-
+public class CompensationDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution delegateExecution) {
-        System.out.println("清点人数：上报.");
+        System.out.println("transation delegate 补偿处理");
     }
 }
