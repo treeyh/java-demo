@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+    <process id="candidate" name="candidate" isExecutable="true">
+        <startEvent id="startEvent1"></startEvent>
+        <endEvent id="sid-014A5DC9-38EB-468A-8A50-31D028E9CC54"></endEvent>
+        <userTask id="sid-1841C7EC-9CCF-4524-AA56-8101E50B3244" name="TaskA"> <!--  activiti:candidateUsers="angus" activiti:candidateGroups="management,boss" -->
+            <potentialOwner>
+                <resourceAssignmentExpression>
+                    <formalExpression>user(angus), group(management), boss</formalExpression>
+                </resourceAssignmentExpression>
+            </potentialOwner>
+            <!-- 任务监听器,也可以上设置任务候选人和代理人 -->
+            <!--<extensionElements>-->
+                <!--<activiti:taskListener event="" class=""></activiti:taskListener>-->
+            <!--</extensionElements>-->
+        </userTask>
+        <sequenceFlow id="sid-9710F0B2-F4C7-49FF-8056-27D252634E6E" sourceRef="startEvent1" targetRef="sid-1841C7EC-9CCF-4524-AA56-8101E50B3244"></sequenceFlow>
+        <sequenceFlow id="sid-4A69FB31-F03C-4D3A-A4CA-C659AE4FB85F" sourceRef="sid-1841C7EC-9CCF-4524-AA56-8101E50B3244" targetRef="sid-014A5DC9-38EB-468A-8A50-31D028E9CC54"></sequenceFlow>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_candidate">
+        <bpmndi:BPMNPlane bpmnElement="candidate" id="BPMNPlane_candidate">
+            <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+                <omgdc:Bounds height="30.0" width="30.0" x="100.0" y="163.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-014A5DC9-38EB-468A-8A50-31D028E9CC54" id="BPMNShape_sid-014A5DC9-38EB-468A-8A50-31D028E9CC54">
+                <omgdc:Bounds height="28.0" width="28.0" x="418.375" y="164.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-1841C7EC-9CCF-4524-AA56-8101E50B3244" id="BPMNShape_sid-1841C7EC-9CCF-4524-AA56-8101E50B3244">
+                <omgdc:Bounds height="80.0" width="100.0" x="225.0" y="138.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge bpmnElement="sid-9710F0B2-F4C7-49FF-8056-27D252634E6E" id="BPMNEdge_sid-9710F0B2-F4C7-49FF-8056-27D252634E6E">
+                <omgdi:waypoint x="130.0" y="178.0"></omgdi:waypoint>
+                <omgdi:waypoint x="225.0" y="178.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-4A69FB31-F03C-4D3A-A4CA-C659AE4FB85F" id="BPMNEdge_sid-4A69FB31-F03C-4D3A-A4CA-C659AE4FB85F">
+                <omgdi:waypoint x="325.0" y="178.0"></omgdi:waypoint>
+                <omgdi:waypoint x="418.375" y="178.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

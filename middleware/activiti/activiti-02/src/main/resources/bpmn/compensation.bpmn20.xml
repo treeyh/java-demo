@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+    <process id="compensation" name="compensation" isExecutable="true">
+        <startEvent id="startEvent1"></startEvent>
+        <serviceTask id="sid-337BA5E8-5938-4AC1-BE21-3B89A1DFAB04" name="工商银行扣款" activiti:class="com.ejyi.demo.activiti02.activiti.delegate.IcbcReduceDelegate"></serviceTask>
+        <serviceTask id="sid-D515B7BC-84C5-4357-AACC-7B5A568341F4" name="农业银行加款" activiti:class="com.ejyi.demo.activiti02.activiti.delegate.AbcAddDelegate"></serviceTask>
+        <intermediateThrowEvent id="intermediateThrowEventCode" name="intermediateThrowEventName">
+            <compensateEventDefinition></compensateEventDefinition>
+        </intermediateThrowEvent>
+        <endEvent id="sid-2EC40131-2C39-4FD8-BE30-2A2B576F10A5"></endEvent>
+        <sequenceFlow id="sid-41A0E182-BD1F-4B73-BA10-6D2455A348C3" sourceRef="startEvent1" targetRef="sid-337BA5E8-5938-4AC1-BE21-3B89A1DFAB04"></sequenceFlow>
+        <sequenceFlow id="sid-54F57D07-0C11-4480-8B8C-8CF00E0CF8C1" sourceRef="sid-337BA5E8-5938-4AC1-BE21-3B89A1DFAB04" targetRef="sid-D515B7BC-84C5-4357-AACC-7B5A568341F4"></sequenceFlow>
+        <sequenceFlow id="sid-4D295E6C-8239-4796-BB20-5D6429CC6673" sourceRef="sid-D515B7BC-84C5-4357-AACC-7B5A568341F4" targetRef="intermediateThrowEventCode"></sequenceFlow>
+        <sequenceFlow id="sid-4D295E6C-8239-4796-BB20-5D6429CC6674" sourceRef="intermediateThrowEventCode" targetRef="sid-2EC40131-2C39-4FD8-BE30-2A2B576F10A5"></sequenceFlow>
+        <boundaryEvent id="sid-C2ABA474-9B33-4B4A-B419-FCFF27655915" cancelActivity="false" attachedToRef="sid-337BA5E8-5938-4AC1-BE21-3B89A1DFAB04">
+            <compensateEventDefinition></compensateEventDefinition>
+        </boundaryEvent>
+        <boundaryEvent id="sid-A7DE26ED-6C93-416D-8374-496C2D341294" cancelActivity="false" attachedToRef="sid-D515B7BC-84C5-4357-AACC-7B5A568341F4">
+            <compensateEventDefinition></compensateEventDefinition>
+        </boundaryEvent>
+        <serviceTask id="sid-ED01781D-B7D8-49D3-B1AE-8895F00C37D1" name="工商银行回退补偿" isForCompensation="true" activiti:class="com.ejyi.demo.activiti02.activiti.delegate.IcbcAddDelegate"></serviceTask>
+        <serviceTask id="sid-6F3B2990-EEA8-4BBB-8900-65E1327E63AE" name="农业银行回退补偿" isForCompensation="true" activiti:class="com.ejyi.demo.activiti02.activiti.delegate.AbcReduceDelegate"></serviceTask>
+        <association id="sid-44246E12-C0C3-46B8-B41F-35D30DA45C4F" sourceRef="sid-C2ABA474-9B33-4B4A-B419-FCFF27655915" targetRef="sid-ED01781D-B7D8-49D3-B1AE-8895F00C37D1" associationDirection="None"></association>
+        <association id="sid-1C358081-2E15-46D2-AE62-01F016EBE21C" sourceRef="sid-A7DE26ED-6C93-416D-8374-496C2D341294" targetRef="sid-6F3B2990-EEA8-4BBB-8900-65E1327E63AE" associationDirection="None"></association>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_compensation">
+        <bpmndi:BPMNPlane bpmnElement="compensation" id="BPMNPlane_compensation">
+            <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+                <omgdc:Bounds height="30.0" width="30.0" x="100.0" y="163.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-337BA5E8-5938-4AC1-BE21-3B89A1DFAB04" id="BPMNShape_sid-337BA5E8-5938-4AC1-BE21-3B89A1DFAB04">
+                <omgdc:Bounds height="80.0" width="100.0" x="225.0" y="138.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-D515B7BC-84C5-4357-AACC-7B5A568341F4" id="BPMNShape_sid-D515B7BC-84C5-4357-AACC-7B5A568341F4">
+                <omgdc:Bounds height="80.0" width="100.0" x="420.0" y="138.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-2EC40131-2C39-4FD8-BE30-2A2B576F10A5" id="BPMNShape_sid-2EC40131-2C39-4FD8-BE30-2A2B576F10A5">
+                <omgdc:Bounds height="28.0" width="28.0" x="619.375" y="164.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-C2ABA474-9B33-4B4A-B419-FCFF27655915" id="BPMNShape_sid-C2ABA474-9B33-4B4A-B419-FCFF27655915">
+                <omgdc:Bounds height="30.0" width="30.0" x="270.0" y="203.23701106516248"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-A7DE26ED-6C93-416D-8374-496C2D341294" id="BPMNShape_sid-A7DE26ED-6C93-416D-8374-496C2D341294">
+                <omgdc:Bounds height="30.0" width="30.0" x="455.0" y="203.23701106516248"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-ED01781D-B7D8-49D3-B1AE-8895F00C37D1" id="BPMNShape_sid-ED01781D-B7D8-49D3-B1AE-8895F00C37D1">
+                <omgdc:Bounds height="80.0" width="100.0" x="255.0" y="270.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-6F3B2990-EEA8-4BBB-8900-65E1327E63AE" id="BPMNShape_sid-6F3B2990-EEA8-4BBB-8900-65E1327E63AE">
+                <omgdc:Bounds height="80.0" width="100.0" x="456.375" y="270.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-44246E12-C0C3-46B8-B41F-35D30DA45C4F" id="BPMNShape_sid-44246E12-C0C3-46B8-B41F-35D30DA45C4F">
+                <omgdc:Bounds height="36.04148792203526" width="7.855343061597296" x="288.33795346920135" y="233.55204042812878"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-1C358081-2E15-46D2-AE62-01F016EBE21C" id="BPMNShape_sid-1C358081-2E15-46D2-AE62-01F016EBE21C">
+                <omgdc:Bounds height="36.853259551667946" width="14.608692804719567" x="475.7679192226402" y="232.78770543778572"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge bpmnElement="sid-1C358081-2E15-46D2-AE62-01F016EBE21C" id="BPMNEdge_sid-1C358081-2E15-46D2-AE62-01F016EBE21C">
+                <omgdi:waypoint x="475.52757740210336" y="232.1813966042874"></omgdi:waypoint>
+                <omgdi:waypoint x="490.51893409707674" y="270.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-54F57D07-0C11-4480-8B8C-8CF00E0CF8C1" id="BPMNEdge_sid-54F57D07-0C11-4480-8B8C-8CF00E0CF8C1">
+                <omgdi:waypoint x="325.0" y="178.0"></omgdi:waypoint>
+                <omgdi:waypoint x="420.0" y="178.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-4D295E6C-8239-4796-BB20-5D6429CC6674" id="BPMNEdge_sid-4D295E6C-8239-4796-BB20-5D6429CC6674">
+                <omgdi:waypoint x="520.0" y="178.0"></omgdi:waypoint>
+                <omgdi:waypoint x="619.375" y="178.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-41A0E182-BD1F-4B73-BA10-6D2455A348C3" id="BPMNEdge_sid-41A0E182-BD1F-4B73-BA10-6D2455A348C3">
+                <omgdi:waypoint x="130.0" y="178.0"></omgdi:waypoint>
+                <omgdi:waypoint x="225.0" y="178.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-44246E12-C0C3-46B8-B41F-35D30DA45C4F" id="BPMNEdge_sid-44246E12-C0C3-46B8-B41F-35D30DA45C4F">
+                <omgdi:waypoint x="288.1943020380203" y="232.89294619363173"></omgdi:waypoint>
+                <omgdi:waypoint x="296.2818881633412" y="270.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

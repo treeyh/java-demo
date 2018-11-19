@@ -1,9 +1,12 @@
 package com.ejyi.demo.activiti02.activiti;
 
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -384,6 +387,128 @@ public class ActivitiDemo {
     }
 
 
+    /**
+     * 补偿中间事件
+     * @param engine
+     */
+    public static void compensationMiddleEventProcessTask(ProcessEngine engine)  {
 
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/compensation.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+    }
+
+
+
+
+    /**
+     * 定义候选用户和用户组
+     * @param engine
+     */
+    public static void candidateProcessTask(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        Group group1 = createGroup(is, "boss", "bossName", "boss");
+        Group group2 = createGroup(is, "management", "managementName", "management");
+        User user1 = createUser(is, "angus", "angusName", "last", "cr@111.com", "123123");
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/candidate.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("boss").list();
+        System.out.println("boss任务数量："+tasks.size());
+        System.out.println("boss任务名："+tasks.get(0).getName());
+
+        tasks = taskService.createTaskQuery().taskCandidateUser("angus").list();
+        System.out.println("angus任务数量："+tasks.size());
+        System.out.println("angus任务名："+tasks.get(0).getName());
+
+        tasks = taskService.createTaskQuery().taskCandidateGroup("management").list();
+        System.out.println("management任务数量："+tasks.size());
+        System.out.println("management任务名："+tasks.get(0).getName());
+
+
+
+
+    }
+
+
+
+
+
+
+    /**
+     * 将用户组数据保存到数据库中
+     * @param identityService
+     * @param id
+     * @param name
+     * @param type
+     * @return
+     */
+    private static Group createGroup(IdentityService identityService, String id,
+                                     String name, String type) {
+        // 调用newGroup方法创建Group实例
+        Group group = identityService.newGroup(id);
+        group.setName(name);
+        group.setType(type);
+        identityService.saveGroup(group);
+        return identityService.createGroupQuery().groupId(id).singleResult();
+    }
+
+    /**
+     * 创建用户方法
+     * @param identityService
+     * @param id
+     * @param first
+     * @param last
+     * @param email
+     * @param passwd
+     * @return
+     */
+    private static User createUser(IdentityService identityService, String id, String first,
+                                  String last, String email, String passwd) {
+        // 使用newUser方法创建User实例
+        User user = identityService.newUser(id);
+        // 设置用户的各个属性
+        user.setFirstName(first);
+        user.setLastName(last);
+        user.setEmail(email);
+        user.setPassword(passwd);
+        // 使用saveUser方法保存用户
+        identityService.saveUser(user);
+        return identityService.createUserQuery().userId(id).singleResult();
+    }
 
 }

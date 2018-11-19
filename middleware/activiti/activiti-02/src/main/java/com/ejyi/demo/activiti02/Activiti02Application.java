@@ -52,7 +52,11 @@ public class Activiti02Application extends SpringBootServletInitializer {
 
 //        ActivitiDemo.timerMiddleEventProcessTask(engine);
 
-        ActivitiDemo.signalMiddleEventProcessTask(engine);
+//        ActivitiDemo.signalMiddleEventProcessTask(engine);
+
+//        ActivitiDemo.compensationMiddleEventProcessTask(engine);
+
+        ActivitiDemo.candidateProcessTask(engine);
     }
 
 
