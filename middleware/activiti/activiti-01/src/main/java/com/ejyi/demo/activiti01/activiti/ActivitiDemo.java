@@ -614,7 +614,7 @@ public class ActivitiDemo {
      * @param type
      * @return
      */
-    private static Group createGroupcreateGroup(IdentityService identityService, String id,
+    private static Group createGroup(IdentityService identityService, String id,
                              String name, String type) {
         // 调用newGroup方法创建Group实例
         Group group = identityService.newGroup(id);

@@ -12,7 +12,9 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 余海
@@ -459,8 +461,47 @@ public class ActivitiDemo {
         System.out.println("management任务数量："+tasks.size());
         System.out.println("management任务名："+tasks.get(0).getName());
 
+    }
 
+    /**
+     * 通过juel定义候选用户和用户组
+     * @param engine
+     */
+    public static void juelCandidateProcessTask(ProcessEngine engine)  {
 
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        User user1 = createUser(is, "userA", "userAName", "last", "cr@111.com", "123123");
+        User user2 = createUser(is, "userB", "userBName", "lastB", "cr@222.com", "123123");
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/juel.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        Map<String, Object> vars = new HashMap<>();
+        vars.put("authService", new AuthService());
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
+        System.out.println(pi.getId());
+
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser("userA").list();
+        System.out.println("userA任务数量："+tasks.size());
+        System.out.println("userA任务名："+tasks.get(0).getName());
+
+        tasks = taskService.createTaskQuery().taskCandidateUser("userB").list();
+        System.out.println("userB任务数量："+tasks.size());
+        System.out.println("userB任务名："+tasks.get(0).getName());
 
     }
 
