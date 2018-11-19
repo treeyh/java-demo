@@ -256,7 +256,6 @@ public class ActivitiDemo {
      * @param engine
      */
     public static void signalBoundaryProcessTask(ProcessEngine engine)  {
-
 //        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
         // 得到流程存储服务组件
@@ -297,6 +296,94 @@ public class ActivitiDemo {
         for(Task task : tasks){
             System.out.println("任务名称3："+task.getName());
         }
-
     }
+
+
+    /**
+     * 定时器中间事件
+     * @param engine
+     */
+    public static void timerMiddleEventProcessTask(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/timer_middle_event.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+        long count = runtimeService.createProcessInstanceQuery().count();
+        System.out.println("启动流程数量："+count);
+
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+
+
+        System.out.println("任务名称1："+task.getName());
+        taskService.complete(task.getId());
+
+        count = runtimeService.createProcessInstanceQuery().count();
+        System.out.println("启动流程数量："+count);
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+
+        System.out.println("任务名称3："+task.getName());
+    }
+
+
+    /**
+     * 定时器中间事件
+     * @param engine
+     */
+    public static void signalMiddleEventProcessTask(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        TaskService taskService = engine.getTaskService();
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/user_pay.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        System.out.println("任务名称1："+task.getName());
+
+        taskService.complete(task.getId());
+
+
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
+
+        for(Task t : tasks) {
+            System.out.println("任务名称2：" + t.getName());
+        }
+    }
+
+
+
+
 }

@@ -48,8 +48,13 @@ public class Activiti02Application extends SpringBootServletInitializer {
 
 //        ActivitiDemo.timerBoundaryProcessTask(engine);
 
-        ActivitiDemo.signalBoundaryProcessTask(engine);
+//        ActivitiDemo.signalBoundaryProcessTask(engine);
+
+//        ActivitiDemo.timerMiddleEventProcessTask(engine);
+
+        ActivitiDemo.signalMiddleEventProcessTask(engine);
     }
+
 
 
 
