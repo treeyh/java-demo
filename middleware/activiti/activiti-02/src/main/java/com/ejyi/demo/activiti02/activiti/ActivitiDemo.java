@@ -1,5 +1,6 @@
 package com.ejyi.demo.activiti02.activiti;
 
+import com.ejyi.demo.activiti02.activiti.delegate.JavaServiceDelegate;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
@@ -505,7 +506,67 @@ public class ActivitiDemo {
 
     }
 
+    /**
+     * java service task定义
+     * @param engine
+     */
+    public static void javaServiceTaskProcessTask(ProcessEngine engine)  {
 
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/JavaServiceTask.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        Map<String, Object> vars = new HashMap<>();
+        vars.put("javaServiceDelegate", new JavaServiceDelegate());
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
+        System.out.println(pi.getId());
+    }
+
+    /**
+     * expression java service task定义
+     * @param engine
+     */
+    public static void expressionServiceTaskProcessTask(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/bean.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        Map<String, Object> vars = new HashMap<>();
+        vars.put("expressionBean", new ExpressionBean());
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
+        System.out.println(pi.getId());
+
+        System.out.println("属性值："+runtimeService.getVariable(pi.getId(), "myName"));
+    }
 
 
 

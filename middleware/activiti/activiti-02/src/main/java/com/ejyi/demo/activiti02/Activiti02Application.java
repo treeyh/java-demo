@@ -58,7 +58,11 @@ public class Activiti02Application extends SpringBootServletInitializer {
 
 //        ActivitiDemo.candidateProcessTask(engine);
 
-        ActivitiDemo.juelCandidateProcessTask(engine);
+//        ActivitiDemo.juelCandidateProcessTask(engine);
+
+//        ActivitiDemo.javaServiceTaskProcessTask(engine);
+
+        ActivitiDemo.expressionServiceTaskProcessTask(engine);
     }
 
 
