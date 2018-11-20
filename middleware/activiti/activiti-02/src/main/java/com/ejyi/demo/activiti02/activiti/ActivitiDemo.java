@@ -13,6 +13,11 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
+import javax.xml.ws.Service;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -566,6 +571,139 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         System.out.println("属性值："+runtimeService.getVariable(pi.getId(), "myName"));
+    }
+
+    /**
+     * java shell task
+     * @param engine
+     */
+    public static void javaShellTask(ProcessEngine engine)  {
+
+        List<String> argList = new ArrayList<>();
+        argList.add("ls");
+        argList.add("-a");
+
+        ProcessBuilder processBuilder = new ProcessBuilder(argList);
+        try {
+            Process process = processBuilder.start();
+
+            InputStream is = process.getInputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int i;
+            while ((i = is.read()) != -1) {
+                baos.write(i);
+            }
+            String str = baos.toString();
+            System.out.println(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * listener user task定义
+     * @param engine
+     */
+    public static void listenerUserTaskProcessTask(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/listener.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+        Task task =taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+
+        System.out.println(task.getId());
+        User user1 = createUser(is, "userListenerUserTaskProcessTask", "userAName", "last", "cr@111.com", "123123");
+
+        taskService.setAssignee(task.getId(), user1.getId());
+        System.out.println(task.getId());
+        taskService.complete(task.getId());
+    }
+
+    /**
+     * userTask 注入属性
+     * @param engine
+     */
+    public static void fieldUserTaskProcessTask(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/field.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        Map<String, Object> vars = new HashMap<>();
+        vars.put("expressionBean", new ExpressionBean());
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
+        System.out.println(pi.getId());
+
+        Task task =taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+
+        System.out.println(task.getId());
+        User user1 = createUser(is, "fieldUserTaskProcessTask1", "userAName", "last", "cr@111.com", "123123");
+
+        taskService.setAssignee(task.getId(), user1.getId());
+        System.out.println(task.getId());
+        taskService.complete(task.getId());
+    }
+
+    /**
+     * 嵌入式子流程
+     * @param engine
+     */
+    public static void embededSubProcess(ProcessEngine engine)  {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/EmbededSubProcess.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+        Task task =taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+
+        System.out.println("当前流程任务："+task.getName());
     }
 
 

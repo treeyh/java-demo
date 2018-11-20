@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="userTask" name="userTask" isExecutable="true">
+    <startEvent id="startEvent1"></startEvent>
+    <userTask id="sid-AE4D7FD0-2151-4CC1-BA70-E114C337F355" name="UserTask1">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.ejyi.demo.activiti02.activiti.MyTaskListener">
+          <activiti:field name="userName" stringValue="userNameValue"></activiti:field>
+        </activiti:taskListener>
+        <activiti:taskListener event="assignment" class="com.ejyi.demo.activiti02.activiti.TaskListenerAssignment"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="com.ejyi.demo.activiti02.activiti.TaskListenerComplete"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="sid-644FF6CF-DA64-4A22-A7BB-A177BD73D14C" name="UserTask2">
+    </userTask>
+    <endEvent id="sid-3D16CA6E-0712-4427-862D-45192240800E"></endEvent>
+    <sequenceFlow id="sid-546150CF-5A76-40FF-9B81-EBD97ABB2B5E" sourceRef="startEvent1" targetRef="sid-AE4D7FD0-2151-4CC1-BA70-E114C337F355"></sequenceFlow>
+    <sequenceFlow id="sid-4CE9E9AF-344D-49F7-919D-982D12E77B66" sourceRef="sid-AE4D7FD0-2151-4CC1-BA70-E114C337F355" targetRef="sid-644FF6CF-DA64-4A22-A7BB-A177BD73D14C"></sequenceFlow>
+    <sequenceFlow id="sid-C14E99A0-ABB3-48F0-99FA-5FD04099B321" sourceRef="sid-644FF6CF-DA64-4A22-A7BB-A177BD73D14C" targetRef="sid-3D16CA6E-0712-4427-862D-45192240800E"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_userTask">
+    <bpmndi:BPMNPlane bpmnElement="userTask" id="BPMNPlane_userTask">
+      <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+        <omgdc:Bounds height="30.0" width="30.0" x="100.0" y="163.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-AE4D7FD0-2151-4CC1-BA70-E114C337F355" id="BPMNShape_sid-AE4D7FD0-2151-4CC1-BA70-E114C337F355">
+        <omgdc:Bounds height="80.0" width="100.0" x="225.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-644FF6CF-DA64-4A22-A7BB-A177BD73D14C" id="BPMNShape_sid-644FF6CF-DA64-4A22-A7BB-A177BD73D14C">
+        <omgdc:Bounds height="80.0" width="100.0" x="420.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-3D16CA6E-0712-4427-862D-45192240800E" id="BPMNShape_sid-3D16CA6E-0712-4427-862D-45192240800E">
+        <omgdc:Bounds height="28.0" width="28.0" x="615.0" y="164.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-546150CF-5A76-40FF-9B81-EBD97ABB2B5E" id="BPMNEdge_sid-546150CF-5A76-40FF-9B81-EBD97ABB2B5E">
+        <omgdi:waypoint x="130.0" y="178.0"></omgdi:waypoint>
+        <omgdi:waypoint x="225.0" y="178.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4CE9E9AF-344D-49F7-919D-982D12E77B66" id="BPMNEdge_sid-4CE9E9AF-344D-49F7-919D-982D12E77B66">
+        <omgdi:waypoint x="325.0" y="178.0"></omgdi:waypoint>
+        <omgdi:waypoint x="420.0" y="178.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C14E99A0-ABB3-48F0-99FA-5FD04099B321" id="BPMNEdge_sid-C14E99A0-ABB3-48F0-99FA-5FD04099B321">
+        <omgdi:waypoint x="520.0" y="178.0"></omgdi:waypoint>
+        <omgdi:waypoint x="615.0" y="178.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
