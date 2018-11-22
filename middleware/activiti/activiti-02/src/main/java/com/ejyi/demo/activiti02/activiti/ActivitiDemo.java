@@ -10,10 +10,10 @@ import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
-import javax.xml.ws.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +33,7 @@ public class ActivitiDemo {
 
     /**
      * 定时器启动事件
+     *
      * @param engine
      */
     public static void timerStartProcessTask(ProcessEngine engine) throws InterruptedException {
@@ -49,20 +50,21 @@ public class ActivitiDemo {
 
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
 
         Thread.sleep(50000L);
 
         count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
     }
 
     /**
      * 消息启动事件
+     *
      * @param engine
      */
-    public static void messageStartProcessTask(ProcessEngine engine)  {
+    public static void messageStartProcessTask(ProcessEngine engine) {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -78,16 +80,17 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
     }
 
 
     /**
      * 错误启动事件
+     *
      * @param engine
      */
-    public static void errorStartProcessTask(ProcessEngine engine)  {
+    public static void errorStartProcessTask(ProcessEngine engine) {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -104,17 +107,17 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
     }
 
 
-
     /**
      * 错误结束事件
+     *
      * @param engine
      */
-    public static void errorEndProcessTask(ProcessEngine engine)  {
+    public static void errorEndProcessTask(ProcessEngine engine) {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -131,15 +134,16 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
     }
 
 
     /**
      * 取消结束事件
+     *
      * @param engine
      */
-    public static void cancelEndProcessTask(ProcessEngine engine)  {
+    public static void cancelEndProcessTask(ProcessEngine engine) {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -157,23 +161,24 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
-        System.out.println("当前流程任务："+task.getName());
+        System.out.println("当前流程任务：" + task.getName());
 
         taskService.complete(task.getId());
 
         task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
-        System.out.println("当前流程任务："+task.getName());
+        System.out.println("当前流程任务：" + task.getName());
     }
 
 
     /**
      * 终止结束事件
+     *
      * @param engine
      */
-    public static void terminalEndProcessTask(ProcessEngine engine)  {
+    public static void terminalEndProcessTask(ProcessEngine engine) {
 
         // 得到流程存储服务组件
         RepositoryService repositoryService = engine.getRepositoryService();
@@ -191,19 +196,19 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
 
-        for(Task task : tasks){
-            System.out.println("任务名称："+task.getName());
-            if("Task1".equals(task.getName())){
+        for (Task task : tasks) {
+            System.out.println("任务名称：" + task.getName());
+            if ("Task1".equals(task.getName())) {
                 taskService.complete(task.getId());
             }
         }
 
         count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         ProcessInstance pi2 = runtimeService.createProcessInstanceQuery().processInstanceId(pi.getId()).singleResult();
         System.out.println(pi2);
@@ -213,9 +218,10 @@ public class ActivitiDemo {
 
     /**
      * 计时边界事件事件
+     *
      * @param engine
      */
-    public static void timerBoundaryProcessTask(ProcessEngine engine)  {
+    public static void timerBoundaryProcessTask(ProcessEngine engine) {
 
 //        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -235,12 +241,12 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
 
-        for(Task task : tasks){
-            System.out.println("任务名称1："+task.getName());
+        for (Task task : tasks) {
+            System.out.println("任务名称1：" + task.getName());
         }
 
         try {
@@ -250,13 +256,13 @@ public class ActivitiDemo {
         }
 
         count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
 
         tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
 
-        for(Task task : tasks){
-            System.out.println("任务名称2："+task.getName());
+        for (Task task : tasks) {
+            System.out.println("任务名称2：" + task.getName());
         }
 
     }
@@ -264,9 +270,10 @@ public class ActivitiDemo {
 
     /**
      * 信号边界事件事件
+     *
      * @param engine
      */
-    public static void signalBoundaryProcessTask(ProcessEngine engine)  {
+    public static void signalBoundaryProcessTask(ProcessEngine engine) {
 //        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
         // 得到流程存储服务组件
@@ -285,36 +292,37 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
 
-        for(Task task : tasks){
-            System.out.println("任务名称1："+task.getName());
+        for (Task task : tasks) {
+            System.out.println("任务名称1：" + task.getName());
             taskService.complete(task.getId());
         }
 
         tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
-        for(Task task : tasks){
-            System.out.println("任务名称2："+task.getName());
+        for (Task task : tasks) {
+            System.out.println("任务名称2：" + task.getName());
         }
         runtimeService.signalEventReceived("contactChangeSignalName");
 
         count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
-        for(Task task : tasks){
-            System.out.println("任务名称3："+task.getName());
+        for (Task task : tasks) {
+            System.out.println("任务名称3：" + task.getName());
         }
     }
 
 
     /**
      * 定时器中间事件
+     *
      * @param engine
      */
-    public static void timerMiddleEventProcessTask(ProcessEngine engine)  {
+    public static void timerMiddleEventProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -334,16 +342,16 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         long count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
 
-        System.out.println("任务名称1："+task.getName());
+        System.out.println("任务名称1：" + task.getName());
         taskService.complete(task.getId());
 
         count = runtimeService.createProcessInstanceQuery().count();
-        System.out.println("启动流程数量："+count);
+        System.out.println("启动流程数量：" + count);
 
         try {
             Thread.sleep(10000);
@@ -353,15 +361,16 @@ public class ActivitiDemo {
 
         task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
-        System.out.println("任务名称3："+task.getName());
+        System.out.println("任务名称3：" + task.getName());
     }
 
 
     /**
      * 定时器中间事件
+     *
      * @param engine
      */
-    public static void signalMiddleEventProcessTask(ProcessEngine engine)  {
+    public static void signalMiddleEventProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -382,14 +391,14 @@ public class ActivitiDemo {
 
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
-        System.out.println("任务名称1："+task.getName());
+        System.out.println("任务名称1：" + task.getName());
 
         taskService.complete(task.getId());
 
 
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(pi.getId()).list();
 
-        for(Task t : tasks) {
+        for (Task t : tasks) {
             System.out.println("任务名称2：" + t.getName());
         }
     }
@@ -397,9 +406,10 @@ public class ActivitiDemo {
 
     /**
      * 补偿中间事件
+     *
      * @param engine
      */
-    public static void compensationMiddleEventProcessTask(ProcessEngine engine)  {
+    public static void compensationMiddleEventProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -421,13 +431,12 @@ public class ActivitiDemo {
     }
 
 
-
-
     /**
      * 定义候选用户和用户组
+     *
      * @param engine
      */
-    public static void candidateProcessTask(ProcessEngine engine)  {
+    public static void candidateProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -451,29 +460,29 @@ public class ActivitiDemo {
         ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
 
 
-
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
         System.out.println(pi.getId());
 
         List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("boss").list();
-        System.out.println("boss任务数量："+tasks.size());
-        System.out.println("boss任务名："+tasks.get(0).getName());
+        System.out.println("boss任务数量：" + tasks.size());
+        System.out.println("boss任务名：" + tasks.get(0).getName());
 
         tasks = taskService.createTaskQuery().taskCandidateUser("angus").list();
-        System.out.println("angus任务数量："+tasks.size());
-        System.out.println("angus任务名："+tasks.get(0).getName());
+        System.out.println("angus任务数量：" + tasks.size());
+        System.out.println("angus任务名：" + tasks.get(0).getName());
 
         tasks = taskService.createTaskQuery().taskCandidateGroup("management").list();
-        System.out.println("management任务数量："+tasks.size());
-        System.out.println("management任务名："+tasks.get(0).getName());
+        System.out.println("management任务数量：" + tasks.size());
+        System.out.println("management任务名：" + tasks.get(0).getName());
 
     }
 
     /**
      * 通过juel定义候选用户和用户组
+     *
      * @param engine
      */
-    public static void juelCandidateProcessTask(ProcessEngine engine)  {
+    public static void juelCandidateProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -502,20 +511,21 @@ public class ActivitiDemo {
         System.out.println(pi.getId());
 
         List<Task> tasks = taskService.createTaskQuery().taskCandidateUser("userA").list();
-        System.out.println("userA任务数量："+tasks.size());
-        System.out.println("userA任务名："+tasks.get(0).getName());
+        System.out.println("userA任务数量：" + tasks.size());
+        System.out.println("userA任务名：" + tasks.get(0).getName());
 
         tasks = taskService.createTaskQuery().taskCandidateUser("userB").list();
-        System.out.println("userB任务数量："+tasks.size());
-        System.out.println("userB任务名："+tasks.get(0).getName());
+        System.out.println("userB任务数量：" + tasks.size());
+        System.out.println("userB任务名：" + tasks.get(0).getName());
 
     }
 
     /**
      * java service task定义
+     *
      * @param engine
      */
-    public static void javaServiceTaskProcessTask(ProcessEngine engine)  {
+    public static void javaServiceTaskProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -543,9 +553,10 @@ public class ActivitiDemo {
 
     /**
      * expression java service task定义
+     *
      * @param engine
      */
-    public static void expressionServiceTaskProcessTask(ProcessEngine engine)  {
+    public static void expressionServiceTaskProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -570,14 +581,15 @@ public class ActivitiDemo {
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
         System.out.println(pi.getId());
 
-        System.out.println("属性值："+runtimeService.getVariable(pi.getId(), "myName"));
+        System.out.println("属性值：" + runtimeService.getVariable(pi.getId(), "myName"));
     }
 
     /**
      * java shell task
+     *
      * @param engine
      */
-    public static void javaShellTask(ProcessEngine engine)  {
+    public static void javaShellTask(ProcessEngine engine) {
 
         List<String> argList = new ArrayList<>();
         argList.add("ls");
@@ -602,9 +614,10 @@ public class ActivitiDemo {
 
     /**
      * listener user task定义
+     *
      * @param engine
      */
-    public static void listenerUserTaskProcessTask(ProcessEngine engine)  {
+    public static void listenerUserTaskProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -626,7 +639,7 @@ public class ActivitiDemo {
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
         System.out.println(pi.getId());
 
-        Task task =taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
         System.out.println(task.getId());
         User user1 = createUser(is, "userListenerUserTaskProcessTask", "userAName", "last", "cr@111.com", "123123");
@@ -638,9 +651,10 @@ public class ActivitiDemo {
 
     /**
      * userTask 注入属性
+     *
      * @param engine
      */
-    public static void fieldUserTaskProcessTask(ProcessEngine engine)  {
+    public static void fieldUserTaskProcessTask(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -665,7 +679,7 @@ public class ActivitiDemo {
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
         System.out.println(pi.getId());
 
-        Task task =taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
         System.out.println(task.getId());
         User user1 = createUser(is, "fieldUserTaskProcessTask1", "userAName", "last", "cr@111.com", "123123");
@@ -677,9 +691,10 @@ public class ActivitiDemo {
 
     /**
      * 嵌入式子流程
+     *
      * @param engine
      */
-    public static void embededSubProcess(ProcessEngine engine)  {
+    public static void embededSubProcess(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -701,16 +716,99 @@ public class ActivitiDemo {
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
         System.out.println(pi.getId());
 
-        Task task =taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
-        System.out.println("当前流程任务："+task.getName());
+        System.out.println("当前流程任务：" + task.getName());
     }
 
+    /**
+     * 调用其他流程文件子流程
+     *
+     * @param engine
+     */
+    public static void callSubProcess(ProcessEngine engine) {
 
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/call_activiti.bpmn20.xml").addClasspathResource("bpmn/off_work.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).processDefinitionKey("off_work").singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println(pi.getId());
+
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+
+        System.out.println("当前流程任务1：" + task.getName());
+        taskService.complete(task.getId());
+
+        ProcessInstance pi2 = runtimeService.createProcessInstanceQuery().superProcessInstanceId(pi.getId()).singleResult();
+        task = taskService.createTaskQuery().processInstanceId(pi2.getId()).singleResult();
+        System.out.println("当前流程任务2：" + task.getName());
+
+    }
+
+    /**
+     * 特殊子流程
+     *
+     * @param engine
+     */
+    public static void sequentialSubProcess(ProcessEngine engine) {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/special_process.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println("流程id：" + pi.getId());
+
+        Execution execution = runtimeService.createExecutionQuery().processInstanceId(pi.getId()).activityId("sid-F58F3201-BD12-44B4-9028-279E35F954CB").singleResult();
+
+        System.out.println("executionId:" + execution.getId());
+
+        //让流程到达任务2
+        runtimeService.executeActivityInAdhocSubProcess(execution.getId(), "sid-FD9835FA-8DC4-4040-955B-0D43334BB990");
+        // 查找任务2并完成
+        Task subTask = taskService.createTaskQuery().processInstanceId(pi.getId()).taskDefinitionKey("sid-FD9835FA-8DC4-4040-955B-0D43334BB990").singleResult();
+        taskService.complete(subTask.getId());
+        System.out.println("完成任务：" + subTask.getName());
+
+        // 完成特别子流程
+        runtimeService.completeAdhocSubProcess(execution.getId());
+
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        System.out.println("当前任务：" + task.getName());
+
+    }
 
 
     /**
      * 将用户组数据保存到数据库中
+     *
      * @param identityService
      * @param id
      * @param name
@@ -729,6 +827,7 @@ public class ActivitiDemo {
 
     /**
      * 创建用户方法
+     *
      * @param identityService
      * @param id
      * @param first
@@ -738,7 +837,7 @@ public class ActivitiDemo {
      * @return
      */
     private static User createUser(IdentityService identityService, String id, String first,
-                                  String last, String email, String passwd) {
+                                   String last, String email, String passwd) {
         // 使用newUser方法创建User实例
         User user = identityService.newUser(id);
         // 设置用户的各个属性

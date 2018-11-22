@@ -70,7 +70,11 @@ public class Activiti02Application extends SpringBootServletInitializer {
 
 //        ActivitiDemo.fieldUserTaskProcessTask(engine);
 
-        ActivitiDemo.embededSubProcess(engine);
+//        ActivitiDemo.embededSubProcess(engine);
+
+//        ActivitiDemo.callSubProcess(engine);
+
+        ActivitiDemo.sequentialSubProcess(engine);
 
     }
 
