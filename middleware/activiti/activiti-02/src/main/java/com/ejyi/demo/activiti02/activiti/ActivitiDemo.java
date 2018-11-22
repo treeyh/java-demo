@@ -14,6 +14,7 @@ import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
+import javax.xml.ws.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -756,7 +757,6 @@ public class ActivitiDemo {
         ProcessInstance pi2 = runtimeService.createProcessInstanceQuery().superProcessInstanceId(pi.getId()).singleResult();
         task = taskService.createTaskQuery().processInstanceId(pi2.getId()).singleResult();
         System.out.println("当前流程任务2：" + task.getName());
-
     }
 
     /**
@@ -802,6 +802,49 @@ public class ActivitiDemo {
 
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
         System.out.println("当前任务：" + task.getName());
+    }
+
+
+    /**
+     * 顺序流
+     *
+     * @param engine
+     */
+    public static void sequenceProcess(ProcessEngine engine) {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/sequence.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+        Map<String , Object> vars = new HashMap<>();
+//        vars.put("days", 6);
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
+        System.out.println("流程id：" + pi.getId());
+
+        // 查找任务2并完成
+        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        taskService.setVariable(task.getId(), "days", 2);
+        System.out.println("完成任务：" + task.getName());
+        System.out.println("任务id："+task.getId());
+        taskService.complete(task.getId());
+
+        task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        System.out.println("完成任务：" + task.getName());
+        System.out.println("任务id："+task.getId());
 
     }
 
