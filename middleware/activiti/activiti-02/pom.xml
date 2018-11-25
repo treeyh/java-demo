@@ -17,7 +17,7 @@
         <env>dev</env>
 
         <!-- 定义版本号 -->
-        <pro.name>activiti-01</pro.name>
+        <pro.name>activiti-02</pro.name>
         <pro.version>1.0-SNAPSHOT</pro.version>
 
         <!-- 引用版本号 -->
