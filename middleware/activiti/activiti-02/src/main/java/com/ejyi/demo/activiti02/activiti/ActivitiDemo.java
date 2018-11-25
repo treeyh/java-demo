@@ -845,9 +845,56 @@ public class ActivitiDemo {
         task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
         System.out.println("完成任务：" + task.getName());
         System.out.println("任务id："+task.getId());
-
     }
 
+
+
+
+
+    /**
+     * 事件网关
+     *
+     * @param engine
+     */
+    public static void eventGatewayProcess(ProcessEngine engine) {
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/event.bpmn20.xml").deploy();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+
+
+        ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+        System.out.println("流程id：" + pi.getId());
+
+        runtimeService.signalEventReceived("mySignal");
+
+//        Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+//        System.out.println("完成任务：" + task.getName());
+//        System.out.println("任务id："+task.getId());
+
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Task task2 = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+        System.out.println("完成任务：" + task2.getName());
+        System.out.println("任务id："+task2.getId());
+    }
 
     /**
      * 将用户组数据保存到数据库中
