@@ -1,0 +1,8 @@
+package com.ejyi.demo.activiti03.model
+
+rule "Person Test"
+    when
+        Person(name == "Tree")
+    then
+        System.out.println("Hello Tree.");
+end
