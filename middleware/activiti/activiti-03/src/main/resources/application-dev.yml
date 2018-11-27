@@ -1,6 +1,6 @@
 spring:
   application:
-    name: activiti-02
+    name: activiti-03
   datasource:
     hikari:
 #      jdbc-url: jdbc:mysql://192.168.133.241:3306/activiti?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
@@ -11,7 +11,7 @@ spring:
       password: mysqlpw
       driver-class-name: com.mysql.cj.jdbc.Driver
       maximum-pool-size: 15
-      pool-name: activiti-02-db
+      pool-name: activiti-03-db
   activiti:
     database-schema-update: true
     check-process-definitions: false

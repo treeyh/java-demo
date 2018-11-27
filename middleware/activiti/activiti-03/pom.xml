@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ejyi.demo.activiti</groupId>
-    <artifactId>activiti-02</artifactId>
+    <artifactId>activiti-03</artifactId>
     <version>1.0-SNAPSHOT</version>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +18,7 @@
         <env>dev</env>
 
         <!-- 定义版本号 -->
-        <pro.name>activiti-02</pro.name>
+        <pro.name>activiti-03</pro.name>
         <pro.version>1.0-SNAPSHOT</pro.version>
 
         <!-- 引用版本号 -->
@@ -32,6 +33,7 @@
 
         <activiti.version>6.0.0</activiti.version>
         <commons.lang.version>2.6</commons.lang.version>
+        <drools.version>7.0.0.Final</drools.version>
     </properties>
 
     <dependencyManagement>
@@ -213,6 +215,67 @@
                 <version>${activiti.version}</version>
             </dependency>
 
+
+            <!-- drools -->
+            <!--<dependency>-->
+                <!--<groupId>org.drools</groupId>-->
+                <!--<artifactId>drools-core</artifactId>-->
+                <!--<version>${drools.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.drools</groupId>-->
+                <!--<artifactId>drools-compiler</artifactId>-->
+                <!--<version>${drools.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.drools</groupId>-->
+                <!--<artifactId>drools-decisiontables</artifactId>-->
+                <!--<version>${drools.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.drools</groupId>-->
+                <!--<artifactId>drools-templates</artifactId>-->
+                <!--<version>${drools.version}</version>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.kie</groupId>-->
+                <!--<artifactId>kie-api</artifactId>-->
+                <!--<version>${drools.version}</version>-->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-spring</artifactId>
+                <version>${drools.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-tx</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>drools-compiler</artifactId>
+                <version>${drools.version}</version>
+            </dependency>
+
+
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -315,20 +378,6 @@
         <!--<artifactId>jackson-databind</artifactId>-->
         <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-awt-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-dom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>batik-svggen</artifactId>
-        </dependency>
-
-
 
         <!-- https://mvnrepository.com/artifact/org.activiti/activiti-engine -->
         <!--<dependency>-->
@@ -342,6 +391,34 @@
         <!--<version>6.0.0</version>-->
         <!--</dependency>-->
 
+
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+        </dependency>
+
     </dependencies>
 
 
@@ -352,7 +429,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.ejyi.demo.activiti02.Activiti02Application</mainClass>
+                    <mainClass>com.ejyi.demo.activiti03.Activiti03Application</mainClass>
                     <layout>ZIP</layout>
                     <attach>false</attach>
                 </configuration>
