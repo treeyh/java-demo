@@ -27,7 +27,6 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-//@MapperScan(value = "com.dadaabc.callcenter.dao", sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class DatasourceConfig implements TransactionManagementConfigurer {
 
     private final static Logger logger = LoggerFactory.getLogger(DatasourceConfig.class);
@@ -50,7 +49,7 @@ public class DatasourceConfig implements TransactionManagementConfigurer {
         ssfb.setDataSource(dataSource);
 //        ssfb.setMapperLocations(mapperLocations);
         ssfb.setConfigLocation(configLocation);
-        ssfb.setTypeAliasesPackage("com.dadaabc.callcenter.dao");
+        ssfb.setTypeAliasesPackage("com.ejyi.demo.dao");
         return ssfb;
     }
 
