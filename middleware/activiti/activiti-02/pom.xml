@@ -61,38 +61,7 @@
 
 
 
-            <!-- 项目引用 -->
-            <dependency>
-                <groupId>com.dadaabc.demo.springboot</groupId>
-                <artifactId>springboot-api</artifactId>
-                <version>${pro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dadaabc.demo.springboot</groupId>
-                <artifactId>springboot-common</artifactId>
-                <version>${pro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dadaabc.demo.springboot</groupId>
-                <artifactId>springboot-dao</artifactId>
-                <version>${pro.version}</version>
-            </dependency>
 
-            <dependency>
-                <groupId>com.dadaabc.demo.springboot</groupId>
-                <artifactId>springboot-manager</artifactId>
-                <version>${pro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dadaabc.demo.springboot</groupId>
-                <artifactId>springboot-service</artifactId>
-                <version>${pro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dadaabc.demo.springboot</groupId>
-                <artifactId>springboot-web</artifactId>
-                <version>${pro.version}</version>
-            </dependency>
 
 
 

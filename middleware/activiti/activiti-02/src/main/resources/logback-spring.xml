@@ -93,14 +93,14 @@
 	<!-- ===== [公共Logger] ===== -->
 
 	<!-- 1,COMMON.LOG -->
-	<logger name="com.dadaabc.demo.springboot" additivity="false">
+	<logger name="com.ejyi.demo.springboot" additivity="false">
 		<level value="INFO"/>
 		<appender-ref ref="DEFAULT-APPENDER"/>
 		<appender-ref ref="ERROR-APPENDER"/>
 	</logger>
 
 
-	<logger name="com.dadaabc.demo.springboot.client" additivity="false">
+	<logger name="com.ejyi.demo.springboot.client" additivity="false">
 		<level value="DEBUG"/>
 		<appender-ref ref="DEFAULT-APPENDER"/>
 		<appender-ref ref="ERROR-APPENDER"/>
