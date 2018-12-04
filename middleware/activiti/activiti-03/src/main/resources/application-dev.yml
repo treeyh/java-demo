@@ -3,12 +3,12 @@ spring:
     name: activiti-03
   datasource:
     hikari:
-#      jdbc-url: jdbc:mysql://192.168.133.241:3306/activiti?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
-#      username: root
-#      password: mysqlpw
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/activiti?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://192.168.133.241:3306/activiti?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
       username: root
       password: mysqlpw
+#      jdbc-url: jdbc:mysql://127.0.0.1:3306/activiti?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
+#      username: root
+#      password: mysqlpw
       driver-class-name: com.mysql.cj.jdbc.Driver
       maximum-pool-size: 15
       pool-name: activiti-03-db

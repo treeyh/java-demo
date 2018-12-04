@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
  * @create 2018-11-25 21:37
  */
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class, scanBasePackages = {"com.ejyi.demo"})
 public class Activiti03Application extends SpringBootServletInitializer {
 
 

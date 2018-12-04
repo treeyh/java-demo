@@ -1,7 +1,8 @@
-package com.ejyi.demo.activiti03.dao.config;
+package com.ejyi.demo.activiti.dao.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,19 +21,20 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import javax.sql.DataSource;
 
 /**
- * @author tree.yu
+ * @author 余海
  * @version 1.0
- * @description 描述
- * @create 2018-11-25 21:39
+ * @description 数据库连接配置
+ * @create 2018-12-04 5:46 PM
  */
 @Configuration
 @EnableTransactionManagement
+@MapperScan(value = "com.ejyi.demo.activiti.dao", sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class DatasourceConfig implements TransactionManagementConfigurer {
 
     private final static Logger logger = LoggerFactory.getLogger(DatasourceConfig.class);
 
-//    @Value(value = "classpath:bean/mybatis/mapping/*.xml")
-//    private Resource[] mapperLocations;
+    @Value(value = "classpath:bean/mybatis/mapping/*.xml")
+    private Resource[] mapperLocations;
 
     @Value(value = "classpath:mybatis-config.xml")
     private Resource configLocation;
@@ -47,9 +49,9 @@ public class DatasourceConfig implements TransactionManagementConfigurer {
     public SqlSessionFactoryBean sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) {
         SqlSessionFactoryBean ssfb = new SqlSessionFactoryBean();
         ssfb.setDataSource(dataSource);
-//        ssfb.setMapperLocations(mapperLocations);
+        ssfb.setMapperLocations(mapperLocations);
         ssfb.setConfigLocation(configLocation);
-        ssfb.setTypeAliasesPackage("com.ejyi.demo.dao");
+        ssfb.setTypeAliasesPackage("com.dadaabc.callcenter.dao");
         return ssfb;
     }
 
@@ -65,5 +67,4 @@ public class DatasourceConfig implements TransactionManagementConfigurer {
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-
 }
