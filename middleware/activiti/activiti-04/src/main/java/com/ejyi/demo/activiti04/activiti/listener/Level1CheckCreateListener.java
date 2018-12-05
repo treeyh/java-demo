@@ -21,7 +21,7 @@ public class Level1CheckCreateListener implements TaskListener {
 
 
         String adminUserId = delegateTask.getVariable(ActivitiConstants.adminUserId).toString();
-
+        System.out.println("adminUserId:"+adminUserId);
         if("1".equals(adminUserId)){
             delegateTask.setAssignee("2");
             delegateTask.setVariable(ActivitiConstants.checkUsers, "2");

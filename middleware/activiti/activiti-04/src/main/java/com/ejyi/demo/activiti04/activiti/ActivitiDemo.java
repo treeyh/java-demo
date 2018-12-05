@@ -95,7 +95,7 @@ public class ActivitiDemo {
         TaskService taskService = engine.getTaskService();
 
 
-        Task task = taskService.createTaskQuery().processInstanceId("32505").singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId("55005").singleResult();
 
         System.out.println(task.getId());
         System.out.println(task.getAssignee());
@@ -121,11 +121,14 @@ public class ActivitiDemo {
         TaskService taskService = engine.getTaskService();
 
 
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned("2").list();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned("6").list();
+
+        System.out.println(tasks.size());
 
         for(Task task : tasks) {
             System.out.println(task.getId());
             System.out.println(task.getAssignee());
+            System.out.println(task.getProcessInstanceId());
         }
 
 

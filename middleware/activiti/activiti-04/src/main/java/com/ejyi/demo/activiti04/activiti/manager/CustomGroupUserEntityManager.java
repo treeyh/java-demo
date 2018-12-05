@@ -5,11 +5,11 @@ import com.ejyi.demo.activiti04.dao.RoleUserPoMapper;
 import com.ejyi.demo.activiti04.dao.UserPoMapper;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.persistence.entity.MembershipEntity;
-import org.activiti.engine.impl.persistence.entity.MembershipEntityImpl;
 import org.activiti.engine.impl.persistence.entity.MembershipEntityManagerImpl;
 import org.activiti.engine.impl.persistence.entity.data.DataManager;
 import org.activiti.engine.impl.persistence.entity.data.MembershipDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author 余海

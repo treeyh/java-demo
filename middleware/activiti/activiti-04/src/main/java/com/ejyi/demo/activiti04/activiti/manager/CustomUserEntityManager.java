@@ -7,23 +7,15 @@ import com.ejyi.demo.activiti04.dao.po.RolePo;
 import com.ejyi.demo.activiti04.dao.po.RoleUserPo;
 import com.ejyi.demo.activiti04.dao.po.UserPo;
 import org.activiti.engine.identity.Group;
-import org.activiti.engine.identity.Picture;
-import org.activiti.engine.identity.User;
-import org.activiti.engine.identity.UserQuery;
-import org.activiti.engine.impl.Page;
-import org.activiti.engine.impl.UserQueryImpl;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.persistence.entity.UserEntity;
-import org.activiti.engine.impl.persistence.entity.UserEntityImpl;
 import org.activiti.engine.impl.persistence.entity.UserEntityManagerImpl;
-import org.activiti.engine.impl.persistence.entity.data.DataManager;
 import org.activiti.engine.impl.persistence.entity.data.UserDataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author 余海
@@ -43,6 +35,12 @@ public class CustomUserEntityManager extends UserEntityManagerImpl {
         super(processEngineConfiguration, userDataManager);
     }
 
+    public CustomUserEntityManager(ProcessEngineConfigurationImpl processEngineConfiguration, UserDataManager userDataManager, UserPoMapper userPoMapper, RolePoMapper rolePoMapper, RoleUserPoMapper roleUserPoMapper) {
+        this(processEngineConfiguration, userDataManager);
+        this.userPoMapper = userPoMapper;
+        this.rolePoMapper = rolePoMapper;
+        this.roleUserPoMapper = roleUserPoMapper;
+    }
 
 
     @Override
@@ -53,10 +51,10 @@ public class CustomUserEntityManager extends UserEntityManagerImpl {
 
     @Override
     public List<Group> findGroupsByUser(final String userId) {
-        if(userId==null){
+        if (userId == null) {
             return null;
         }
-        List<RolePo> roleList=new ArrayList<RolePo>();
+        List<RolePo> roleList = new ArrayList<RolePo>();
         List<RoleUserPo> userRoleList = roleUserPoMapper.selectByUserId(userId);
         for (RoleUserPo roleUserPo : userRoleList) {
             String roleId = roleUserPo.getRoleId();
