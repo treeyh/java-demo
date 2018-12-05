@@ -107,6 +107,30 @@ public class ActivitiDemo {
     }
 
 
+    public static void getTasksByUser(ProcessEngine engine){
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned("2").list();
+
+        for(Task task : tasks) {
+            System.out.println(task.getId());
+            System.out.println(task.getAssignee());
+        }
+
+
+    }
+
 
 
 }
