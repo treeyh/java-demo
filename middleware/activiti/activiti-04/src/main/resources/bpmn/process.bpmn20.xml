@@ -33,27 +33,27 @@
     <sequenceFlow id="sf5" sourceRef="check1" targetRef="eg2"></sequenceFlow>
     <sequenceFlow id="sf8" sourceRef="check2" targetRef="eg3"></sequenceFlow>
     <sequenceFlow id="sf2" sourceRef="apply" targetRef="eg1"></sequenceFlow>
-    <sequenceFlow id="sf4" name="员工发起一级审核" sourceRef="eg1" targetRef="check1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level1 == 1}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="sf10" name="二级审核通过后三级审核" sourceRef="eg3" targetRef="check3">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level3 == 1}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="sf7" name="一级审核通过后二级审核" sourceRef="eg2" targetRef="check2">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level2 == 1}]]></conditionExpression>
-    </sequenceFlow>
     <serviceTask id="checkComplete" name="审核完毕出发动作" activiti:class="com.ejyi.demo.activiti04.activiti.delegate.CheckCompleteDelegate"></serviceTask>
+    <sequenceFlow id="sid-EA596C3D-06D8-4F3C-8815-74916D96B6AB" sourceRef="checkComplete" targetRef="end"></sequenceFlow>
     <sequenceFlow id="sf3" name="员工发起免审" sourceRef="eg1" targetRef="checkComplete">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level1 == 0}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level1 <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf4" name="员工发起一级审核" sourceRef="eg1" targetRef="check1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level1 > 0}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sf6" name="一级审核后完毕" sourceRef="eg2" targetRef="checkComplete">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level2 == 0}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level2 <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf7" name="一级审核通过后二级审核" sourceRef="eg2" targetRef="check2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level2 > 0}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sf9" name="二级审核后完毕" sourceRef="eg3" targetRef="checkComplete">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level3 == 0}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level3 <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf10" name="二级审核通过后三级审核" sourceRef="eg3" targetRef="check3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level3 > 0}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sf11" sourceRef="check3" targetRef="checkComplete"></sequenceFlow>
-    <sequenceFlow id="sid-EA596C3D-06D8-4F3C-8815-74916D96B6AB" sourceRef="checkComplete" targetRef="end"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_process">
     <bpmndi:BPMNPlane bpmnElement="process" id="BPMNPlane_process">
@@ -119,13 +119,13 @@
         <omgdi:waypoint x="868.5705086928525" y="215.0"></omgdi:waypoint>
         <omgdi:waypoint x="774.8164842240824" y="390.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="sf10" id="BPMNEdge_sf10">
-        <omgdi:waypoint x="784.5766129032259" y="175.4233870967742"></omgdi:waypoint>
-        <omgdi:waypoint x="840.0" y="175.2008032128514"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sf9" id="BPMNEdge_sf9">
         <omgdi:waypoint x="764.1075443329217" y="194.10754433292175"></omgdi:waypoint>
         <omgdi:waypoint x="749.4483526012706" y="390.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf10" id="BPMNEdge_sf10">
+        <omgdi:waypoint x="784.5766129032259" y="175.4233870967742"></omgdi:waypoint>
+        <omgdi:waypoint x="840.0" y="175.2008032128514"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sf2" id="BPMNEdge_sf2">
         <omgdi:waypoint x="205.0" y="175.0"></omgdi:waypoint>

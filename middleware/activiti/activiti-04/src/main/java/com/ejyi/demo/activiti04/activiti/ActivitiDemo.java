@@ -57,6 +57,8 @@ public class ActivitiDemo {
         List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
         System.out.println("Deployment.size:" + deployments.size());
 
+        System.out.println("ProcessDefinition.id:"+pd.getId());
+
 
         Map<String , Object> vars = new HashMap<>();
         vars.put("classHours", 15);
@@ -149,7 +151,7 @@ public class ActivitiDemo {
         TaskService taskService = engine.getTaskService();
 
 
-        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("72505").singleResult();
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("5").singleResult();
 
         System.out.println(processInstance.getId());
         System.out.println(processInstance.getStartUserId());
