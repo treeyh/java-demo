@@ -51,9 +51,13 @@ public class Activiti04Application {
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
 //        ActivitiDemo.customUser(engine);
-//        ActivitiDemo.customUserCheck(engine);
 
-        ActivitiDemo.getTasksByUser(engine);
+        ActivitiDemo.customUserCheck(engine);
+
+//        ActivitiDemo.getTasksByUser(engine);
+
+
+//        ActivitiDemo.checkProcessStatus(engine);
 
     }
 

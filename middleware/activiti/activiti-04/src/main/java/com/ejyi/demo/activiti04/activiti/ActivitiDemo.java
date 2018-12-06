@@ -95,7 +95,7 @@ public class ActivitiDemo {
         TaskService taskService = engine.getTaskService();
 
 
-        Task task = taskService.createTaskQuery().processInstanceId("55005").singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId("5").singleResult();
 
         System.out.println(task.getId());
         System.out.println(task.getAssignee());
@@ -130,7 +130,29 @@ public class ActivitiDemo {
             System.out.println(task.getAssignee());
             System.out.println(task.getProcessInstanceId());
         }
+    }
 
+
+
+
+    public static void checkProcessStatus(ProcessEngine engine){
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("72505").singleResult();
+
+        System.out.println(processInstance.getId());
+        System.out.println(processInstance.getStartUserId());
 
     }
 
