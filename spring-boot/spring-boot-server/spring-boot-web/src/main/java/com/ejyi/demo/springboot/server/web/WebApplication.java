@@ -15,6 +15,7 @@ import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
@@ -26,6 +27,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.scheduling.annotation.EnableAsync;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -33,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication(scanBasePackages = {"com.ejyi.demo.springboot.server"})
 @EnableAsync
+@EnableSwagger2
 public class WebApplication extends SpringBootServletInitializer {
 
     private static final Logger logger = LoggerFactory.getLogger(WebApplication.class);
@@ -45,85 +55,36 @@ public class WebApplication extends SpringBootServletInitializer {
 
 
     private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder) {
-        return builder.sources(WebApplication.class).bannerMode(Banner.Mode.CONSOLE).logStartupInfo(true).registerShutdownHook(true).web(true);
+        return builder.sources(WebApplication.class).bannerMode(Banner.Mode.CONSOLE).logStartupInfo(true)
+                .registerShutdownHook(true).web(WebApplicationType.SERVLET);
     }
+
     // jar启动入口
     public static void main(String[] args) throws Exception {
         logger.info("Application start....");
 
         ConfigurableApplicationContext context = configureApplication(new SpringApplicationBuilder()).run(args);
-
-        try{
-            Thread.sleep(5000L);
-        } catch (InterruptedException e) {
-            logger.error(e.getMessage(), e);
-        }
-        //设置应用状态为可用
-        AppConstants.SERVICE_RUN_STATUS = 1;
-        logger.info("Application start over.");
     }
 
 
-
-    /**
-     * 用于接受 shutdown 事件
-     */
     @Bean
-    public GracefulShutdown gracefulShutdown() {
-        return new GracefulShutdown();
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ejyi.demo.springboot.server"))
+                .paths(PathSelectors.any())
+                .build();
     }
 
-    /**
-     * 配置tomcat
-     *
-     * @return
-     */
-    @Bean
-    public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-        tomcat.addConnectorCustomizers(gracefulShutdown());
-        return tomcat;
-    }
-
-    /**
-     * 优雅关闭 Spring Boot。容器必须是 tomcat
-     */
-    private class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationListener<ContextClosedEvent> {
-        private final Logger log = LoggerFactory.getLogger(GracefulShutdown.class);
-        private volatile Connector connector;
-        private final int waitTime = 5;
-
-        @Override
-        public void customize(Connector connector) {
-            this.connector = connector;
-        }
-
-        @Override
-        public void onApplicationEvent(ContextClosedEvent contextClosedEvent) {
-            logger.info("Application end...");
-            //设置应用状态为准备停止
-            AppConstants.SERVICE_RUN_STATUS = 2;
-            try {
-                //sleep一段时间供负载均衡心跳捕获
-                Thread.sleep(25000L);
-            } catch (InterruptedException e) {
-                logger.error(e.getMessage(), e);
-            }
-
-            this.connector.pause();
-            Executor executor = this.connector.getProtocolHandler().getExecutor();
-            if (executor instanceof ThreadPoolExecutor) {
-                try {
-                    ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
-                    threadPoolExecutor.shutdown();
-                    if (!threadPoolExecutor.awaitTermination(waitTime, TimeUnit.SECONDS)) {
-                        log.warn("Tomcat 进程在" + waitTime + " 秒内无法结束，尝试强制结束");
-                    }
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-            logger.info("Application end over");
-        }
+    private ApiInfo apiInfo() {
+        Contact contact = new Contact("Tree","url","tree@ejyi.com");
+        return new ApiInfoBuilder()
+                .title("tree spring boot demo.")
+                .description("Tree spring boot 示例.")
+                .termsOfServiceUrl("")
+                .contact(contact)
+                .version("1.0")
+                .build();
     }
 }
