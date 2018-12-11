@@ -49,17 +49,19 @@ public class GracefulShutdownListener  implements TomcatConnectorCustomizer, App
             logger.error(e.getMessage(), e);
         }
 
-        this.connector.pause();
-        Executor executor = this.connector.getProtocolHandler().getExecutor();
-        if (executor instanceof ThreadPoolExecutor) {
-            try {
-                ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
-                threadPoolExecutor.shutdown();
-                if (!threadPoolExecutor.awaitTermination(waitTime, TimeUnit.SECONDS)) {
-                    logger.warn("Tomcat 进程在" + waitTime + " 秒内无法结束，尝试强制结束");
+        if(null != this.connector) {
+            this.connector.pause();
+            Executor executor = this.connector.getProtocolHandler().getExecutor();
+            if (executor instanceof ThreadPoolExecutor) {
+                try {
+                    ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
+                    threadPoolExecutor.shutdown();
+                    if (!threadPoolExecutor.awaitTermination(waitTime, TimeUnit.SECONDS)) {
+                        logger.warn("Tomcat 进程在" + waitTime + " 秒内无法结束，尝试强制结束");
+                    }
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
                 }
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
             }
         }
         logger.info("Application end over");
