@@ -105,15 +105,12 @@ public class ActivitiDemo {
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
         System.out.println(task.getName());
-        taskService.setAssignee(task.getId(), "1");
-        System.out.println(task.getAssignee());
         taskService.complete(task.getId());
 
     }
 
 
     public static void customUserCheck(ProcessEngine engine){
-
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
         // 得到流程存储服务组件
@@ -125,21 +122,19 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-
-        Task task = taskService.createTaskQuery().processInstanceId("5").singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId("25001").singleResult();
 
         System.out.println(task.getId());
         System.out.println(task.getAssignee());
 
         Map<String , Object> vars = new HashMap<>();
-        vars.put("checkResult", 0);
+        vars.put("checkResult", 1);
 
         taskService.complete(task.getId(), vars);
     }
 
 
     public static void getTasksByUser(ProcessEngine engine){
-
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
         // 得到流程存储服务组件
@@ -150,7 +145,6 @@ public class ActivitiDemo {
         IdentityService is = engine.getIdentityService();
 
         TaskService taskService = engine.getTaskService();
-
 
         List<Task> tasks = taskService.createTaskQuery().taskCandidateOrAssigned("6").list();
 
@@ -179,8 +173,7 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-
-        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("5").singleResult();
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("35001").singleResult(); //25001
 
         System.out.println(processInstance.getId());
         System.out.println(processInstance.getStartUserId());
