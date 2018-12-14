@@ -15,19 +15,18 @@ public class Level1CheckCompleteListener implements TaskListener {
 
     @Override
     public void notify(DelegateTask delegateTask) {
-        System.out.println("Level1CheckCompleteListener:getId:"+ delegateTask.getId());
-        System.out.println("Level1CheckCompleteListener:getName:"+ delegateTask.getName());
-        System.out.println("Level1CheckCompleteListener:getAssignee:"+ delegateTask.getAssignee());
-        System.out.println("Level1CheckCompleteListener:checkResult:"+ delegateTask.getVariable(ActivitiConstants.checkResult));
+        System.out.println("Level1CheckCompleteListener..task.id:" + delegateTask.getId() + ";task.name:" +
+                delegateTask.getName() + ";task.assignee:" + delegateTask.getAssignee() + ";task.checkResult:" +
+                delegateTask.getVariable(ActivitiConstants.checkResult));
 
         Integer classHours = Integer.parseInt(delegateTask.getVariable(ActivitiConstants.classHours).toString());
 
-        if(classHours > ActivitiConstants.maxFreeCheck){
+        if (classHours > ActivitiConstants.maxFreeCheck) {
             delegateTask.setVariable(ActivitiConstants.level2, 1);
-        }else{
+        } else {
             delegateTask.setVariable(ActivitiConstants.level2, 0);
         }
-        System.out.println("一级审批完成. classHours:"+classHours);
+        System.out.println("一级审批完成. classHours:" + classHours);
     }
 
 

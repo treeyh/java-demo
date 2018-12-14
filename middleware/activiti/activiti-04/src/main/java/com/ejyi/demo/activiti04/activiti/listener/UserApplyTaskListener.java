@@ -16,9 +16,8 @@ public class UserApplyTaskListener implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
 
-        System.out.println("UserApplyTaskListener:"+ delegateTask.getId());
-        System.out.println("UserApplyTaskListener:"+ delegateTask.getName());
-        System.out.println("UserApplyTaskListener:"+ delegateTask.getAssignee());
+        System.out.println("UserApplyTaskListener..task.id:"+ delegateTask.getId()+";task.name:"+
+                delegateTask.getName()+";task.assignee:"+delegateTask.getAssignee());
 
         Integer classHours = Integer.parseInt(delegateTask.getVariable(ActivitiConstants.classHours).toString());
 

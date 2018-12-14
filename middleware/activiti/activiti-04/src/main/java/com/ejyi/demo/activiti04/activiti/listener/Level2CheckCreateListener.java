@@ -15,9 +15,8 @@ public class Level2CheckCreateListener implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
 
-        System.out.println("Level2CheckCreateListener:"+ delegateTask.getId());
-        System.out.println("Level2CheckCreateListener:"+ delegateTask.getName());
-        System.out.println("Level2CheckCreateListener:"+ delegateTask.getAssignee());
+        System.out.println("Level2CheckCreateListener..task.id:"+ delegateTask.getId()+";task.name:"+
+                delegateTask.getName()+";task.assignee:"+delegateTask.getAssignee());
 
 
         String adminUserId = delegateTask.getVariable(ActivitiConstants.adminUserId).toString();

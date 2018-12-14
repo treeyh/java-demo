@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="CompensateProcess" name="CompensateProcess" isExecutable="true">
+    <startEvent id="start"></startEvent>
+    <userTask id="ApplyCompensate" name="员工发起">
+      <extensionElements>
+        <activiti:taskListener event="complete" class="com.ejyi.demo.activiti04.activiti.listener.UserApplyTaskListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="Level1Check" name="经理审批">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.ejyi.demo.activiti04.activiti.listener.Level1CheckCreateListener"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="com.ejyi.demo.activiti04.activiti.listener.Level1CheckCompleteListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <endEvent id="end"></endEvent>
+    <userTask id="Level2Check" name="总监审批">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.ejyi.demo.activiti04.activiti.listener.Level2CheckCreateListener"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="com.ejyi.demo.activiti04.activiti.listener.Level2CheckCompleteListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="eg1"></exclusiveGateway>
+    <exclusiveGateway id="eg2"></exclusiveGateway>
+    <userTask id="Level3Check" name="Dennis审批">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.ejyi.demo.activiti04.activiti.listener.Level3CheckCreateListener"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="com.ejyi.demo.activiti04.activiti.listener.Level3CheckCompleteListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="eg3"></exclusiveGateway>
+    <sequenceFlow id="sf1" sourceRef="start" targetRef="ApplyCompensate"></sequenceFlow>
+    <sequenceFlow id="sf5" sourceRef="Level1Check" targetRef="eg2"></sequenceFlow>
+    <sequenceFlow id="sf8" sourceRef="Level2Check" targetRef="eg3"></sequenceFlow>
+    <sequenceFlow id="sf2" sourceRef="ApplyCompensate" targetRef="eg1"></sequenceFlow>
+    <serviceTask id="ProcessComplete" name="审核完毕出发动作" activiti:class="com.ejyi.demo.activiti04.activiti.delegate.CheckCompleteDelegate"></serviceTask>
+    <sequenceFlow id="sid-EA596C3D-06D8-4F3C-8815-74916D96B6AB" sourceRef="ProcessComplete" targetRef="end"></sequenceFlow>
+    <sequenceFlow id="sf4" name="员工发起一级审核" sourceRef="eg1" targetRef="Level1Check">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level1 > 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf9" name="二级审核后完毕" sourceRef="eg3" targetRef="ProcessComplete">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level3 <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf11" sourceRef="Level3Check" targetRef="ProcessComplete"></sequenceFlow>
+    <sequenceFlow id="sf6" name="一级审核后完毕" sourceRef="eg2" targetRef="ProcessComplete">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level2 <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf3" name="员工发起免审" sourceRef="eg1" targetRef="ProcessComplete">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level1 <= 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf7" name="一级审核通过后二级审核" sourceRef="eg2" targetRef="Level2Check">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level2 > 0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sf10" name="二级审核通过后三级审核" sourceRef="eg3" targetRef="Level3Check">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${level3 > 0}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_CompensateProcess">
+    <bpmndi:BPMNPlane bpmnElement="CompensateProcess" id="BPMNPlane_CompensateProcess">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="15.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ApplyCompensate" id="BPMNShape_ApplyCompensate">
+        <omgdc:Bounds height="80.0" width="100.0" x="105.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Level1Check" id="BPMNShape_Level1Check">
+        <omgdc:Bounds height="80.0" width="100.0" x="375.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="876.0" y="416.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Level2Check" id="BPMNShape_Level2Check">
+        <omgdc:Bounds height="80.0" width="100.0" x="600.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="eg1" id="BPMNShape_eg1">
+        <omgdc:Bounds height="40.0" width="40.0" x="270.0" y="155.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="eg2" id="BPMNShape_eg2">
+        <omgdc:Bounds height="40.0" width="40.0" x="510.0" y="155.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Level3Check" id="BPMNShape_Level3Check">
+        <omgdc:Bounds height="80.0" width="100.0" x="840.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="eg3" id="BPMNShape_eg3">
+        <omgdc:Bounds height="40.0" width="40.0" x="745.0" y="155.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ProcessComplete" id="BPMNShape_ProcessComplete">
+        <omgdc:Bounds height="80.0" width="100.0" x="690.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sf4" id="BPMNEdge_sf4">
+        <omgdi:waypoint x="310.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="375.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf3" id="BPMNEdge_sf3">
+        <omgdi:waypoint x="302.7659574468085" y="182.2340425531915"></omgdi:waypoint>
+        <omgdi:waypoint x="690.0" y="401.6666666666667"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf6" id="BPMNEdge_sf6">
+        <omgdi:waypoint x="539.0322580645161" y="185.96774193548387"></omgdi:waypoint>
+        <omgdi:waypoint x="707.0588235294117" y="390.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf5" id="BPMNEdge_sf5">
+        <omgdi:waypoint x="475.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf8" id="BPMNEdge_sf8">
+        <omgdi:waypoint x="700.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="745.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-EA596C3D-06D8-4F3C-8815-74916D96B6AB" id="BPMNEdge_sid-EA596C3D-06D8-4F3C-8815-74916D96B6AB">
+        <omgdi:waypoint x="790.0" y="430.0"></omgdi:waypoint>
+        <omgdi:waypoint x="876.0" y="430.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf7" id="BPMNEdge_sf7">
+        <omgdi:waypoint x="550.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf11" id="BPMNEdge_sf11">
+        <omgdi:waypoint x="866.4705882352941" y="215.0"></omgdi:waypoint>
+        <omgdi:waypoint x="763.5294117647059" y="390.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf9" id="BPMNEdge_sf9">
+        <omgdi:waypoint x="763.2142857142857" y="193.21428571428572"></omgdi:waypoint>
+        <omgdi:waypoint x="743.9215686274509" y="390.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf10" id="BPMNEdge_sf10">
+        <omgdi:waypoint x="785.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="840.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf2" id="BPMNEdge_sf2">
+        <omgdi:waypoint x="205.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="270.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sf1" id="BPMNEdge_sf1">
+        <omgdi:waypoint x="45.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="105.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

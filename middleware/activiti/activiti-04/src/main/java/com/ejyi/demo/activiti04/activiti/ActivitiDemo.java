@@ -41,7 +41,7 @@ public class ActivitiDemo {
 
         // 部署流程文件
         Deployment deployment = repositoryService.createDeployment()
-                .addClasspathResource("bpmn/process.bpmn20.xml").deploy();
+                .addClasspathResource("bpmn/CompensateProcess.bpmn20.xml").deploy();
     }
 
 
@@ -59,10 +59,9 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("process").active().latestVersion().singleResult();
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("CompensateProcess").active().latestVersion().singleResult();
 
-        System.out.println("ProcessDefinition.id:"+pd.getId());
-        System.out.println("ProcessDefinition.name:"+pd.getName());
+        System.out.println("getProcessDefinition..ProcessDefinition.id:"+pd.getId() + ";ProcessDefinition.name:"+pd.getName());
 
         return pd;
     }
@@ -122,13 +121,12 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-        Task task = taskService.createTaskQuery().processInstanceId("25001").singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId("2501").singleResult();
 
-        System.out.println(task.getId());
-        System.out.println(task.getAssignee());
+        System.out.println("customUserCheck..taskId:"+task.getId()+";taskAssignee:"+task.getAssignee()+";taskName:"+task.getName());
 
         Map<String , Object> vars = new HashMap<>();
-        vars.put("checkResult", 1);
+        vars.put(ActivitiConstants.checkResult, 1);
 
         taskService.complete(task.getId(), vars);
     }
@@ -151,9 +149,8 @@ public class ActivitiDemo {
         System.out.println(tasks.size());
 
         for(Task task : tasks) {
-            System.out.println(task.getId());
-            System.out.println(task.getAssignee());
-            System.out.println(task.getProcessInstanceId());
+            System.out.println("getTasksByUser..taskId:"+task.getId()+";taskAssignee:"+task.getAssignee()+";taskName:"+
+                    task.getName()+";taskProcessInstanceId:"+task.getProcessInstanceId());
         }
     }
 
@@ -175,9 +172,8 @@ public class ActivitiDemo {
 
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("35001").singleResult(); //25001
 
-        System.out.println(processInstance.getId());
-        System.out.println(processInstance.getStartUserId());
 
+        System.out.println("checkProcessStatus..processInstanceId:"+processInstance.getId());
     }
 
 

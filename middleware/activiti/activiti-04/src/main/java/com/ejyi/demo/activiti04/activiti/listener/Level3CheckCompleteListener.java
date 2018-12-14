@@ -15,10 +15,9 @@ public class Level3CheckCompleteListener  implements TaskListener {
 
     @Override
     public void notify(DelegateTask delegateTask) {
-        System.out.println("Level3CheckCompleteListener:getId:"+ delegateTask.getId());
-        System.out.println("Level3CheckCompleteListener:getName:"+ delegateTask.getName());
-        System.out.println("Level3CheckCompleteListener:getAssignee:"+ delegateTask.getAssignee());
-        System.out.println("Level3CheckCompleteListener:checkResult:"+ delegateTask.getVariable(ActivitiConstants.checkResult));
+        System.out.println("Level3CheckCompleteListener..task.id:" + delegateTask.getId() + ";task.name:" +
+                delegateTask.getName() + ";task.assignee:" + delegateTask.getAssignee() + ";task.checkResult:" +
+                delegateTask.getVariable(ActivitiConstants.checkResult));
 
         Integer classHours = Integer.parseInt(delegateTask.getVariable(ActivitiConstants.classHours).toString());
 
