@@ -27,13 +27,54 @@ public class ActivitiDemo {
 
 
 
+    public static void createDeployment(ProcessEngine engine){
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        // 部署流程文件
+        Deployment deployment = repositoryService.createDeployment()
+                .addClasspathResource("bpmn/process.bpmn20.xml").deploy();
+    }
+
+
+    public static ProcessDefinition getProcessDefinition(ProcessEngine engine){
+
+
+        engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
+
+        // 得到流程存储服务组件
+        RepositoryService repositoryService = engine.getRepositoryService();
+        // 得到运行时服务组件
+        RuntimeService runtimeService = engine.getRuntimeService();
+
+        IdentityService is = engine.getIdentityService();
+
+        TaskService taskService = engine.getTaskService();
+
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("process").active().latestVersion().singleResult();
+
+        System.out.println("ProcessDefinition.id:"+pd.getId());
+        System.out.println("ProcessDefinition.name:"+pd.getName());
+
+        return pd;
+    }
+
+
 
     /**
      * 自定义用户
      *
      * @param engine
      */
-    public static void customUser(ProcessEngine engine) {
+    public static void startProcessInstance(ProcessEngine engine) {
 
         engine.getProcessEngineConfiguration().setAsyncExecutorActivate(true);
 
@@ -47,17 +88,10 @@ public class ActivitiDemo {
         TaskService taskService = engine.getTaskService();
 
 
-        // 部署流程文件
-        Deployment deployment = repositoryService.createDeployment()
-                .addClasspathResource("bpmn/process.bpmn20.xml").deploy();
 
-        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+        ProcessDefinition pd = getProcessDefinition(engine);
 
-        System.out.println("deployment.getId():"+deployment.getId());
-        List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
-        System.out.println("Deployment.size:" + deployments.size());
-
-        System.out.println("ProcessDefinition.id:"+pd.getId());
+        System.out.println("ProcessDefinition.id:" + pd.getId());
 
 
         Map<String , Object> vars = new HashMap<>();
@@ -68,16 +102,11 @@ public class ActivitiDemo {
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId(), vars);
         System.out.println("ProcessInstance:"+pi.getId());
 
-
-
         Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 
         System.out.println(task.getName());
-
         taskService.setAssignee(task.getId(), "1");
-
         System.out.println(task.getAssignee());
-
         taskService.complete(task.getId());
 
     }
@@ -103,7 +132,7 @@ public class ActivitiDemo {
         System.out.println(task.getAssignee());
 
         Map<String , Object> vars = new HashMap<>();
-        vars.put("checkResult", 1);
+        vars.put("checkResult", 0);
 
         taskService.complete(task.getId(), vars);
     }

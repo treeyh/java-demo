@@ -50,12 +50,14 @@ public class Activiti04Application {
         // 创建流程引擎
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 
-        ActivitiDemo.customUser(engine);
+        ActivitiDemo.getProcessDefinition(engine);
+
+//        ActivitiDemo.customUser(engine);
+
 
 //        ActivitiDemo.customUserCheck(engine);
 
 //        ActivitiDemo.getTasksByUser(engine);
-
 
 //        ActivitiDemo.checkProcessStatus(engine);
 
