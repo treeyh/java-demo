@@ -42,6 +42,8 @@ public class ActivitiDemo {
         // 部署流程文件
         Deployment deployment = repositoryService.createDeployment()
                 .addClasspathResource("bpmn/CompensateProcess.bpmn20.xml").deploy();
+
+        System.out.println("createDeployment over:" + deployment.getId()+"---"+deployment.getName());
     }
 
 
@@ -121,9 +123,10 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-        Task task = taskService.createTaskQuery().processInstanceId("2501").singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId("5001").singleResult();
 
-        System.out.println("customUserCheck..taskId:"+task.getId()+";taskAssignee:"+task.getAssignee()+";taskName:"+task.getName());
+        System.out.println("customUserCheck..taskId:"+task.getId()+";taskAssignee:"+task.getAssignee()+";taskName:"+
+                task.getName()+";taskDefinitionKey:"+task.getTaskDefinitionKey());
 
         Map<String , Object> vars = new HashMap<>();
         vars.put(ActivitiConstants.checkResult, 1);

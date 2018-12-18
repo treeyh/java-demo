@@ -56,7 +56,6 @@ public class Activiti04Application {
 
 //        ActivitiDemo.startProcessInstance(engine);
 
-
         ActivitiDemo.customUserCheck(engine);
 
 //        ActivitiDemo.getTasksByUser(engine);
