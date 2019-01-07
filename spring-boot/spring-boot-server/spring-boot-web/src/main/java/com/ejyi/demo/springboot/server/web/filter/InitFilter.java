@@ -19,10 +19,12 @@
 package com.ejyi.demo.springboot.server.web.filter;
 
 import com.ejyi.demo.springboot.server.utils.DateUtils;
+import com.ejyi.demo.springboot.server.utils.JsonUtils;
 import com.ejyi.demo.springboot.server.utils.StreamUtils;
 import com.ejyi.demo.springboot.server.context.HttpContext;
 import com.ejyi.demo.springboot.server.context.RequestWrapper;
 import com.ejyi.demo.springboot.server.context.ResponseWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -96,7 +98,11 @@ public class InitFilter extends OncePerRequestFilter {
             try {
                 String charEncoding = requestWrapper.getCharacterEncoding() != null ?
                         requestWrapper.getCharacterEncoding() : "UTF-8";
-                msg.append("|body=").append(StreamUtils.getStringByStream(requestWrapper.getInputStream(), charEncoding));
+                String body = StreamUtils.getStringByStream(requestWrapper.getInputStream(), charEncoding);
+                msg.append("|body=").append(body);
+                if("POST".equals(requestWrapper.getMethod().toUpperCase()) && StringUtils.isEmpty(body)){
+                    msg.append(JsonUtils.toJson(request.getParameterMap()));
+                }
             } catch (IOException e) {
                 logger.error("_traceId=" + HttpContext.getTraceId() + "Failed to parse request payload", e);
             }
