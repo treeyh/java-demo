@@ -2,12 +2,12 @@
 spring:
   datasource:
     hikari:
-      jdbc-url: jdbc:h2:mem:db_springboot_demo;MODE=MYSQL;TRACE_LEVEL_SYSTEM_OUT=2;INIT=RUNSCRIPT FROM 'classpath:./datasource/init_db.sql'
+      jdbc-url: jdbc:h2:mem:springboot_demo;MODE=MYSQL;DB_CLOSE_DELAY=-1   #;INIT=RUNSCRIPT FROM 'classpath:./datasource/init_db.sql'   ;INIT=CREATE SCHEMA IF NOT EXISTS springboot_demo
       username: root
-      password: test
+      password:
       driver-class-name: org.h2.Driver
       maximum-pool-size: 15
-      pool-name: ${pro.name}-db
+      pool-name: unit-test-db
     name: demo
     filters: config,log4j,stat
     platform: h2
@@ -16,6 +16,7 @@ spring:
       enabled: true
   redis:
     host: 192.168.170.20
+    #    password:
     port: 6379
     lettuce:
       pool:

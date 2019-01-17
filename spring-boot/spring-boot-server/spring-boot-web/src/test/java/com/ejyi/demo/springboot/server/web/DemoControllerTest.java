@@ -11,19 +11,15 @@ package com.ejyi.demo.springboot.server.web;
 
 
 import com.ejyi.demo.springboot.server.model.DemoModel;
-import com.ejyi.demo.springboot.server.model.result.ReturnResult;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
@@ -34,9 +30,7 @@ import java.util.Date;
  * @description 单元测试，需要启动web容器进行测试
  * @create 2018-05-30 18:29
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DemoControllerTest {
+public class DemoControllerTest extends BaseTest{
 
 
     private final static Logger logger = LoggerFactory.getLogger(DemoControllerTest.class);
@@ -49,8 +43,9 @@ public class DemoControllerTest {
     private TestRestTemplate restTemplate;
 
 
+
     @Test
-    public void testQuery1() throws Exception {
+    public void testQuery1() throws Exception{
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/1", String.class);
 
@@ -60,14 +55,16 @@ public class DemoControllerTest {
     }
 
     @Test
-    public void testQuery2() throws Exception {
+    public void testQuery2() throws Exception{
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/2", String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/4", String.class);
 
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //故意设置异常
-        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":3");
+        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":4");
 
+        //故意设置异常
+//        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":9732");
     }
 
     @Test
@@ -80,6 +77,21 @@ public class DemoControllerTest {
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200");
 
+        System.out.println(responseEntity.getBody());
+
+    }
+
+    @Test
+    public void testQuery3() throws Exception{
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/6", String.class);
+
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //故意设置异常
+        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":6");
+
+        //故意设置异常
+//        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":9732");
     }
 
 }

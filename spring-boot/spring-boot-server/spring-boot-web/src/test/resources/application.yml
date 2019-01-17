@@ -1,7 +1,7 @@
 
 spring:
   profiles:
-    active: test
+    active: unittest
   http:
     converters:
       preferred-json-mapper: jackson
@@ -16,6 +16,7 @@ spring:
     encoding: UTF-8
   flyway:
     enabled: false
+
 
 
 server:

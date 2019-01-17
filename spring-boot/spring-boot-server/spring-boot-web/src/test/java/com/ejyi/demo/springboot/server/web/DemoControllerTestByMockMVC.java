@@ -12,15 +12,12 @@ package com.ejyi.demo.springboot.server.web;
 import com.ejyi.demo.springboot.server.web.controller.DemoController;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -35,9 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @description 使用MockMVC进行单元测试
  * @create 2018-05-31 12:03
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DemoControllerTestByMockMVC {
+public class DemoControllerTestByMockMVC extends BaseTest{
 
     private final static Logger logger = LoggerFactory.getLogger(DemoControllerTestByMockMVC.class);
 
@@ -72,4 +67,14 @@ public class DemoControllerTestByMockMVC {
                 .andReturn().getResponse().getContentAsString();
     }
 
+
+    @Test
+    public void testQuery2() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/demo/v1/demo/1").contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                .andReturn().getResponse().getContentAsString();
+    }
 }

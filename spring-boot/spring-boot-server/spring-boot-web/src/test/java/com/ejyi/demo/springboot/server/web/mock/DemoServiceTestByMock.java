@@ -5,26 +5,21 @@ import com.ejyi.demo.springboot.server.model.enums.ResultEnum;
 import com.ejyi.demo.springboot.server.model.result.CallResult;
 import com.ejyi.demo.springboot.server.service.DemoService;
 import com.ejyi.demo.springboot.server.utils.JsonUtils;
-import org.assertj.core.api.Assertions;
+import com.ejyi.demo.springboot.server.web.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author 余海
  * @version 1.0
  * @description 描述
- * @create 2018-12-11 6:04 PM
+ * @create 2018-12-11 5:37 PM
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class DemoControllerTestByMock {
+public class DemoServiceTestByMock extends BaseTest {
 
     @MockBean
     private DemoService demoService;
@@ -41,8 +36,8 @@ public class DemoControllerTestByMock {
 
         System.out.println(JsonUtils.toJson(ipModelCallResult));
 
-        Assertions.assertThat(ipModelCallResult).hasFieldOrPropertyWithValue("success", true);
-        Assertions.assertThat(ipModelCallResult.getBusinessResult()).hasFieldOrPropertyWithValue("city",  "testCity");
+        Assert.assertTrue(ipModelCallResult.isSuccess());
+        Assert.assertTrue(ipModelCallResult.getBusinessResult().getCity().equals("testCity"));
 
         ipModelCallResult = this.demoService.queryByIp("8.8.8.7");
 
@@ -50,7 +45,10 @@ public class DemoControllerTestByMock {
 
         Assert.assertTrue(ipModelCallResult.isSuccess());
         Assert.assertTrue(ipModelCallResult.getBusinessResult().getCity().equals("testCity"));
-//        Assertions.assertThat(ipModelCallResult).
+//        Assertions.assertThat(ipModelCallResult).is
+
+
+
     }
 
 }

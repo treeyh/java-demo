@@ -1,0 +1,4 @@
+cacheConnection: true
+cacheTableNames: true
+leakHunter: false
+mergeDataSets: false
