@@ -3,9 +3,9 @@ spring:
     name: springboot-project
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://192.168.170.17:3306/springboot_demo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://192.168.170.82:3306/springboot_demo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&transformedBitIsBoolean=true&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
       username: root
-      password: test
+      password: mysqldev
       driver-class-name: com.mysql.cj.jdbc.Driver
       maximum-pool-size: 15
       pool-name: ${pro.name}-db
