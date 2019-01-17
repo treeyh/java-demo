@@ -1,0 +1,32 @@
+
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:db_springboot_demo;MODE=MYSQL;TRACE_LEVEL_SYSTEM_OUT=2;INIT=RUNSCRIPT FROM 'classpath:./datasource/init_db.sql'
+      username: root
+      password: test
+      driver-class-name: org.h2.Driver
+      maximum-pool-size: 15
+      pool-name: ${pro.name}-db
+    name: demo
+    filters: config,log4j,stat
+    platform: h2
+  h2:
+    console:
+      enabled: true
+  redis:
+    host: 192.168.170.20
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 4
+        max-wait: -1ms
+        min-idle: 2
+
+
+logging:
+  path: ./logs
+  register-shutdown-hook: false
+
+

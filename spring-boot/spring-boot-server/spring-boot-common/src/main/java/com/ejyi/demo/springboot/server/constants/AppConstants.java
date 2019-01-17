@@ -34,7 +34,7 @@ public class AppConstants {
     /**
      * 缓存超时时间
      */
-    public static final Long CACHE_TIME_OUT = 30 * 60 * 1000L;
+    public static final Long CACHE_TIME_OUT = 1 * 60L;
 
     /**
      * 服务运行状态：

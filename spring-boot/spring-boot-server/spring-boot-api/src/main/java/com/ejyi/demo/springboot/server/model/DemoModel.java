@@ -23,6 +23,18 @@ public class DemoModel {
     private Date         createTime;  //创建时间
     private Date updateTime; //更新时间
 
+    public DemoModel() {
+    }
+
+    public DemoModel(Long id, String code, Double score, Byte status, Date createTime, Date updateTime) {
+        this.id = id;
+        this.code = code;
+        this.score = score;
+        this.status = status;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public Long getId() {
         return id;
     }

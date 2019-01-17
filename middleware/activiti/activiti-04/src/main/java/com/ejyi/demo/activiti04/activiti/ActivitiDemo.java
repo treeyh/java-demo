@@ -123,7 +123,7 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-        Task task = taskService.createTaskQuery().processInstanceId("5001").singleResult();
+        Task task = taskService.createTaskQuery().processInstanceId("2501").singleResult();
 
         System.out.println("customUserCheck..taskId:"+task.getId()+";taskAssignee:"+task.getAssignee()+";taskName:"+
                 task.getName()+";taskDefinitionKey:"+task.getTaskDefinitionKey());
@@ -173,7 +173,7 @@ public class ActivitiDemo {
 
         TaskService taskService = engine.getTaskService();
 
-        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("35001").singleResult(); //25001
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId("2501").singleResult(); //25001
 
 
         System.out.println("checkProcessStatus..processInstanceId:"+processInstance.getId());

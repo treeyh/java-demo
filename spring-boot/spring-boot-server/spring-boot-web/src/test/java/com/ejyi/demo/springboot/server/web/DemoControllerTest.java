@@ -10,6 +10,8 @@
 package com.ejyi.demo.springboot.server.web;
 
 
+import com.ejyi.demo.springboot.server.model.DemoModel;
+import com.ejyi.demo.springboot.server.model.result.ReturnResult;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +24,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 
 /**
@@ -45,9 +49,8 @@ public class DemoControllerTest {
     private TestRestTemplate restTemplate;
 
 
-
     @Test
-    public void testQuery1() throws Exception{
+    public void testQuery1() throws Exception {
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/1", String.class);
 
@@ -57,13 +60,25 @@ public class DemoControllerTest {
     }
 
     @Test
-    public void testQuery2() throws Exception{
+    public void testQuery2() throws Exception {
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/1", String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("/demo/v1/demo/2", String.class);
 
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         //故意设置异常
-        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":12");
+        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200").contains("\"id\":3");
+
+    }
+
+    @Test
+    public void testAdd() throws Exception {
+
+        DemoModel demoModel = new DemoModel(12L, "code222", 34.1D, (byte) 1, new Date(), new Date());
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity("/demo/v1/demo", demoModel, String.class);
+
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(responseEntity.getBody()).contains("\"code\":200");
 
     }
 

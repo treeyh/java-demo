@@ -28,6 +28,20 @@ public class ActiveInfoPO {
 
     private Date updateTime;
 
+    public ActiveInfoPO() {
+    }
+
+    public ActiveInfoPO(Long id, String code, Integer size, Double score, Integer type, Integer status, Date createTime, Date updateTime) {
+        this.id = id;
+        this.code = code;
+        this.size = size;
+        this.score = score;
+        this.type = type;
+        this.status = status;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public Long getId() {
         return id;
     }

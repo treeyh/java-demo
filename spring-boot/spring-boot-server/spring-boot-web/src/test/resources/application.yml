@@ -1,0 +1,24 @@
+
+spring:
+  profiles:
+    active: test
+  http:
+    converters:
+      preferred-json-mapper: jackson
+    encoding:
+      enabled: true
+      charset: UTF-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    timeZone: GMT+08:00
+    default-property-inclusion: non_null
+  messages:
+    encoding: UTF-8
+  flyway:
+    enabled: false
+
+
+server:
+  port: 10000
+
+
