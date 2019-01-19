@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# 需定义环境变量 RUN_ENV：取值范围：local：本机；dev：开发环境；test：测试环境：staging：预发布环境；production：生产环境
+
 APP_NAME="${pro.name}"
 
 #取当前目录
@@ -12,7 +14,7 @@ PID_PATH="/data0/webroot/${APP_NAME}"
 
 Xmx="1024m"
 
-if [ "${SERVER_ENVIROMENT}"x = "self"x ]
+if [ "${SERVER_ENVIROMENT}"x = "local"x ]
 then
     Xmx="1024m"
     LOG_PATH="$BASE_PATH/logs"
@@ -30,7 +32,7 @@ elif [ "${SERVER_ENVIROMENT}"x = "production"x ]
 then
     Xmx="4096m"
 else
-    echo "Environment variables RUN_ENV not found."
+    echo "Environment variables RUN_ENV not found. 需定义环境变量 RUN_ENV：取值范围：local：本机；dev：开发环境；test：测试环境：staging：预发布环境；production：生产环境"
     exit -1
 fi
 
