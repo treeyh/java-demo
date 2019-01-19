@@ -12,9 +12,9 @@ import org.junit.runners.MethodSorters;
 import java.util.Date;
 
 /**
- * @author 余海
+ * @author tree
  * @version 1.0
- * @description 描述
+ * @description Junit单元测试示例
  * @create 2019-01-17 8:26 PM
  */
 @FixMethodOrder(value = MethodSorters.NAME_ASCENDING)

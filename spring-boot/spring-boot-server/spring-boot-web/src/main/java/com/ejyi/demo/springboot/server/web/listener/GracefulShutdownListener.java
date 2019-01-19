@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author 余海
+ * @author tree
  * @version 1.0
  * @description 优雅关闭 Spring Boot。容器必须是 tomcat
  * @create 2018-12-03 3:58 PM

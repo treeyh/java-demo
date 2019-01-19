@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author 余海
+ * @author tree
  * @version 1.0
  * @description 心跳接口支持
  * @create 2018-10-17 下午6:18

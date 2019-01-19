@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.SQLException;
 
 /**
- * @author 余海
+ * @author tree
  * @version 1.0
  * @description 基于h2内存数据库进行的单元测试， 参考文档：https://github.com/database-rider/database-rider
  * @create 2019-01-17 4:53 PM
@@ -35,7 +35,6 @@ public class BaseH2MockTest {
 
     private static Flyway flyway;
 
-//    private static Connection connection;
 
     @Rule
     public DBUnitRule dbUnitRule = DBUnitRule.
@@ -45,19 +44,9 @@ public class BaseH2MockTest {
     @BeforeClass
     public static void initMigration() throws SQLException {
 
-        flyway = new Flyway();
-        flyway.setDataSource(DB_URL, DB_USER, DB_PASSWORD);
-        flyway.setLocations("filesystem:src/test/resources/db/migration");
+        flyway = Flyway.configure().dataSource(DB_URL, DB_USER, DB_PASSWORD)
+                .locations("filesystem:src/test/resources/db/migration").load();
         flyway.migrate();
-
-//        connection = flyway.getDataSource().getConnection();
-//        //add some data to test db cleanup
-//        try (Statement stmt = connection.createStatement()) {
-//            stmt.addBatch("INSERT INTO active_info VALUES (1, '111111', 1, 1.23, 2, 1, '2018-05-05 04:12:12', '2018-05-05 04:12:12');");
-//            stmt.addBatch("INSERT INTO active_info VALUES (2, '222222', 1, 1.23, 2, 1, '2018-05-05 04:12:12', '2018-05-05 04:12:12');");
-//            int[] result = stmt.executeBatch();
-//            assertEquals(result.length, 2);
-//        }
     }
 
     @AfterClass

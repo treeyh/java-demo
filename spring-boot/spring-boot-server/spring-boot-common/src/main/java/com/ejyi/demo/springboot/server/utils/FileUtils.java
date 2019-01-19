@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.function.Function;
 
 /**
- * @author 余海
+ * @author tree
  * @version 1.0
  * @description 文件读写帮助类
  * @create 2018-10-25 下午6:36
