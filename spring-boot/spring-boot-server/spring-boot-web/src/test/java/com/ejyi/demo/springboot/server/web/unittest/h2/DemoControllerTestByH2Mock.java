@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 /**
  * @author tree
  * @version 1.0
- * @description 描述
+ * @description
  * @create 2019-01-17 8:27 PM
  */
 public class DemoControllerTestByH2Mock extends BaseH2MockTest {

@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author tree
  * @version 1.0
- * @description 描述
+ * @description
  * @create 2019-01-17 8:27 PM
  */
 public class ActiveInfoMapper02Test extends BaseH2MockTest{

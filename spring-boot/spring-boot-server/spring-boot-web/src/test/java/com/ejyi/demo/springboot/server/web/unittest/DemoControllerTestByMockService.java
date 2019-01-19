@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * @author tree
  * @version 1.0
- * @description 描述
+ * @description
  * @create 2019-01-17 8:26 PM
  */
 public class DemoControllerTestByMockService extends BaseTest {

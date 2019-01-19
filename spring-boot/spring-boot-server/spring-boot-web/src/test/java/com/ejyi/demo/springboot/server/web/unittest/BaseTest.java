@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * @author tree
  * @version 1.0
- * @description 描述
+ * @description
  * @create 2019-01-17 8:25 PM
  */
 @RunWith(SpringRunner.class)
