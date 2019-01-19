@@ -32,9 +32,7 @@ public class BaseH2MockTest {
     private static String DB_USER = "root";
     private static String DB_PASSWORD = "";
 
-
     private static Flyway flyway;
-
 
     @Rule
     public DBUnitRule dbUnitRule = DBUnitRule.

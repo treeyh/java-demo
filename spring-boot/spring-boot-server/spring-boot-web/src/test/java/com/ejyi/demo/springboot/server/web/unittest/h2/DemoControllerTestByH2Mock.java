@@ -25,8 +25,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
  */
 public class DemoControllerTestByH2Mock extends BaseH2MockTest {
 
-
-
     private final static Logger logger = LoggerFactory.getLogger(DemoControllerTestByH2Mock.class);
 
     @Autowired
@@ -37,7 +35,6 @@ public class DemoControllerTestByH2Mock extends BaseH2MockTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
 
     @Test
     public void test01Query() throws Exception{
