@@ -12,6 +12,7 @@ package com.ejyi.demo.springboot.server.context;
 import com.ejyi.demo.springboot.server.utils.IpUtils;
 import com.ejyi.demo.springboot.server.utils.UuidUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -179,13 +180,22 @@ public class HttpContext {
         }
 
         public void reset(HttpServletRequest request, HttpServletResponse response){
-            this.ip = IpUtils.getRequestIpAddress(request);
-
-            String trace = request.getHeader(HttpContext.TRACE_ID_KEY);
-            if(StringUtils.isEmpty(trace)){
-                trace = IpUtils.getServerIpAddress() +"_"+ UuidUtils.getUUID();
+            String trace = null;
+            if(null != request) {
+                trace = request.getHeader(HttpContext.TRACE_ID_KEY);
+                this.ip = IpUtils.getRequestIpAddress(request);
+            }else{
+                this.ip = "";
             }
-            response.setHeader(HttpContext.TRACE_ID_KEY, trace);
+
+            if (StringUtils.isEmpty(trace)) {
+                trace = IpUtils.getServerIpAddress() + "_" + UuidUtils.getUUID();
+            }
+
+            if(null !=response) {
+                response.setHeader(HttpContext.TRACE_ID_KEY, trace);
+            }
+            MDC.put("sysTraceId", trace);
 
             this.request = request;
             this.response = response;

@@ -6,9 +6,9 @@
 	<!-- logger上下文,LOG_PATH是spring boot内置变量,取值logging.path -->
 	<springProperty scope="context" name="APPLICATION_NAME" source="spring.application.name"/>
 	<springProperty scope="context" name="LOGGING_ROOT" source="logging.path"/>
-	<property name="PATTERN" value="%d [%t-${PID}] %-5p %c - [%m]%n" />
+	<property name="PATTERN" value="%d [%t-${PID}] %-5p %c - [%X{sysTraceId}] [%m]%n" />
 	<property name="CONSOLE_LOG_PATTERN"
-			  value="%d [%boldYellow(%t-${PID})] %highlight(%-5p) %boldGreen(%c) - [%m]%n"/>
+			  value="%d [%boldYellow(%t-${PID})] %highlight(%-5p) %boldGreen(%c) - [%X{sysTraceId}] [%m]%n"/>
 
 
 	<!-- <contextName>${APPLICATION_NAME}Log</contextName> -->
