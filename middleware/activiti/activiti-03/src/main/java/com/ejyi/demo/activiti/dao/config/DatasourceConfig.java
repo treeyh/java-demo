@@ -51,7 +51,7 @@ public class DatasourceConfig implements TransactionManagementConfigurer {
         ssfb.setDataSource(dataSource);
         ssfb.setMapperLocations(mapperLocations);
         ssfb.setConfigLocation(configLocation);
-        ssfb.setTypeAliasesPackage("com.dadaabc.callcenter.dao");
+        ssfb.setTypeAliasesPackage("com.ejyi.callcenter.dao");
         return ssfb;
     }
 
