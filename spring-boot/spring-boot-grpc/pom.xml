@@ -32,7 +32,7 @@
         <spring-boot-grpc.version>2.3.0</spring-boot-grpc.version>
 
 
-        <fastjson.version>1.2.29</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <swagger.version>2.6.1</swagger.version>
         <slf4j.version>1.7.12</slf4j.version>
         <logback.version>1.2.1</logback.version>
